@@ -154,6 +154,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final emailField = TextField(
+      keyboardType: TextInputType.emailAddress,
       obscureText: false,
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
@@ -258,7 +259,7 @@ class Register extends StatelessWidget {
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
     );
 
-    final jenisKelamin = DropdownButton(
+    final jenisKelamin = DropdownButtonFormField(
       style: TextStyle(
           fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.black),
       value: _valJenisKelamin,
@@ -277,6 +278,7 @@ class Register extends StatelessWidget {
 
     final tanggalLahir = TextField(
       obscureText: false,
+      keyboardType: TextInputType.datetime,
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -297,6 +299,7 @@ class Register extends StatelessWidget {
 
     final nomorHandphone = TextField(
       obscureText: false,
+      keyboardType: TextInputType.number,
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -307,6 +310,7 @@ class Register extends StatelessWidget {
 
     final emailField = TextField(
       obscureText: false,
+      keyboardType: TextInputType.emailAddress,
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
