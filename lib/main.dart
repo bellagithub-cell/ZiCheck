@@ -182,10 +182,10 @@ class Login extends StatelessWidget {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => Login()),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Home()),
+          );
         },
         child: Text("Login",
             textAlign: TextAlign.center,
@@ -200,31 +200,33 @@ class Login extends StatelessWidget {
         backgroundColor: Colors.blueAccent,
       ),
       body: Center(
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                //untuk email
-                SizedBox(height: 45.0),
-                emailField,
-                SizedBox(height: 25.0),
-                passwordField,
-                SizedBox(height: 35.0),
-                loginButton,
-                SizedBox(height: 15.0),
-                Text('Click button to back to Main Page'),
-                // RaisedButton(
-                //   textColor: Colors.white,
-                //   color: Colors.redAccent,
-                //   child: Text('Back to Main Page'),
-                //   onPressed: () {
-                //     // TODO
-                //   },
-                // )
-              ],
+        child: SingleChildScrollView(
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  //untuk email
+                  SizedBox(height: 45.0),
+                  emailField,
+                  SizedBox(height: 25.0),
+                  passwordField,
+                  SizedBox(height: 35.0),
+                  loginButton,
+                  SizedBox(height: 15.0),
+                  Text('Click button to back to Main Page'),
+                  // RaisedButton(
+                  //   textColor: Colors.white,
+                  //   color: Colors.redAccent,
+                  //   child: Text('Back to Main Page'),
+                  //   onPressed: () {
+                  //     // TODO
+                  //   },
+                  // )
+                ],
+              ),
             ),
           ),
         ),
@@ -407,6 +409,92 @@ class Register extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+    // throw UnimplementedError();
+  }
+}
+
+class Home extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    var mediaQueryData = MediaQuery.of(context);
+    final double widthScreen = mediaQueryData.size.width;
+    final double appBarHeight = kToolbarHeight;
+    final double paddingTop = mediaQueryData.padding.top;
+    final double paddingBottom = mediaQueryData.padding.bottom;
+    final double heightScreen =
+        mediaQueryData.size.height - paddingBottom - paddingTop - appBarHeight;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Menu on Top"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: () {},
+          ),
+          // ),
+        ],
+      ),
+      body: SafeArea(
+        child: GridView.count(
+          crossAxisCount: 2,
+          childAspectRatio: widthScreen / heightScreen,
+          children: <Widget>[
+            FlatButton(
+              onPressed: () {},
+              child: Center(
+                child: Icon(
+                  Icons.favorite,
+                  size: 100.0,
+                ),
+                // ),
+              ),
+            ),
+            MaterialButton(
+              onPressed: () {},
+              child: Center(
+                child: Icon(
+                  Icons.favorite_border,
+                ),
+              ),
+            ),
+            MaterialButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditProfile()),
+                );
+              },
+              child: Center(
+                child: Icon(
+                  Icons.face,
+                ),
+              ),
+            ),
+            MaterialButton(
+              onPressed: () {},
+              child: Center(
+                child: Icon(Icons.smart_button),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+    // throw UnimplementedError();
+  }
+}
+
+class EditProfile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Profile"),
       ),
     );
     // throw UnimplementedError();
