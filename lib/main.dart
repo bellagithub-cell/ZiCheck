@@ -496,6 +496,34 @@ class EditProfile extends StatelessWidget {
       appBar: AppBar(
         title: Text("Profile"),
       ),
+      body: Column(
+        children: <Widget>[
+          Center(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, 50, 0, 10),
+              child: CircleAvatar(
+                radius: 55,
+                backgroundColor: Color(0xffFDCF09),
+              ),
+            ),
+          ),
+          RichText(
+            text: TextSpan(
+              style: Theme.of(context).textTheme.body1.copyWith(fontSize: 30),
+              text: "Jhon Doe",
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 50, 0, 10),
+            child: RichText(
+              text: TextSpan(children: [
+                WidgetSpan(child: Icon(Icons.party_mode)),
+                TextSpan(text: "Birthad")
+              ]),
+            ),
+          )
+        ],
+      ),
     );
     // throw UnimplementedError();
   }
