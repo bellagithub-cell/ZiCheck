@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -62,6 +64,20 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    var mediaQueryData = MediaQuery.of(context);
+    final double heightScreen = mediaQueryData.size.height / 5;
+
+    final logo = Padding(
+        padding: EdgeInsets.fromLTRB(0, heightScreen, 0, heightScreen),
+        child: RichText(
+            text: TextSpan(
+                text: "ZiCheck",
+                style: TextStyle(
+                  fontFamily: 'Monserrat',
+                  fontSize: 50,
+                  color: Colors.blue,
+                ))));
+
     final linkLogin = RichText(
       text: TextSpan(
           text: "Masuk/Login",
@@ -135,6 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   //   //       fit: BoxFit.contain,
                   //   //     ),
                   // ),
+                  logo,
                   linkLogin,
                   linkRegister,
                 ],
@@ -153,6 +170,19 @@ class _MyHomePageState extends State<MyHomePage> {
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var mediaQueryData = MediaQuery.of(context);
+    final double heightScreen = mediaQueryData.size.height / 6;
+    final logo = Padding(
+        padding: EdgeInsets.fromLTRB(0, 30, 0, heightScreen),
+        child: RichText(
+            text: TextSpan(
+                text: "ZiCheck",
+                style: TextStyle(
+                  fontFamily: 'Monserrat',
+                  fontSize: 50,
+                  color: Colors.blue,
+                ))));
+
     final emailField = TextField(
       keyboardType: TextInputType.emailAddress,
       obscureText: false,
@@ -208,6 +238,7 @@ class Login extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  logo,
                   //untuk email
                   SizedBox(height: 45.0),
                   emailField,
@@ -418,7 +449,6 @@ class Register extends StatelessWidget {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     var mediaQueryData = MediaQuery.of(context);
     final double widthScreen = mediaQueryData.size.width;
     final double appBarHeight = kToolbarHeight;
@@ -447,17 +477,23 @@ class Home extends StatelessWidget {
               onPressed: () {},
               child: Center(
                 child: Icon(
-                  Icons.favorite,
+                  Icons.medical_services_outlined,
                   size: 100.0,
                 ),
                 // ),
               ),
             ),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => History()),
+                );
+              },
               child: Center(
                 child: Icon(
-                  Icons.favorite_border,
+                  Icons.refresh_outlined,
+                  size: 100.0,
                 ),
               ),
             ),
@@ -470,14 +506,23 @@ class Home extends StatelessWidget {
               },
               child: Center(
                 child: Icon(
-                  Icons.face,
+                  Icons.supervised_user_circle_outlined,
+                  size: 100.0,
                 ),
               ),
             ),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ShowAlert()),
+                );
+              },
               child: Center(
-                child: Icon(Icons.smart_button),
+                child: Icon(
+                  Icons.add_alert,
+                  size: 100.0,
+                ),
               ),
             )
           ],
@@ -488,40 +533,260 @@ class Home extends StatelessWidget {
   }
 }
 
-class EditProfile extends StatelessWidget {
+class ShowAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    Widget cekButton = FlatButton(onPressed: () {}, child: Icon(Icons.check));
+    AlertDialog alert = AlertDialog(
+      title: Text("Perhatian"),
+      content: Text(
+        "Dengan menekan tombol 'Darurat', maka Anda akan melakukan panggilan darurat ke rumah sakit terdekat. Saat ini rumah sakit sedang mengalami keramaian. Lakukan panggilan ini apabila benar-benar darurat. Apakah Anda yakin?",
+        textAlign: TextAlign.justify,
+      ),
+      actions: [
+        cekButton,
+      ],
+    );
+    return alert;
+    // throw UnimplementedError();
+  }
+}
+
+class History extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Home"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: ListView(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+            child: Text(
+              "Riwayat Checkup",
+              style: TextStyle(fontSize: 30),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Card(
+            child: InkWell(
+              splashColor: Colors.blue.withAlpha(30),
+              onTap: () {},
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListTile(
+                      leading: Icon(Icons.refresh_outlined),
+                      title: Text("20 November 2019")),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      SizedBox(width: 8),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailHistory()),
+                            );
+                          },
+                          child: Text("Detail")),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                    leading: Icon(Icons.refresh_outlined),
+                    title: Text("1 Januari 2020")),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    SizedBox(width: 8),
+                    TextButton(onPressed: () {}, child: Text("Detail")),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+    // throw UnimplementedError();
+  }
+}
+
+class DetailHistory extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Riwayat"),
+        ),
+        body: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
+              child: Text(
+                "Detail Riwayat Checkup",
+                style: TextStyle(fontSize: 25),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      "20 November 2019",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  SizedBox(height: 15.0),
+                  // ListTile(
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
+                    child: Text(
+                      "Suhu Tubuh : " + "38" + " Derajat",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    //   contentPadding: EdgeInsets.fromLTRB(0, 3, 0, 3),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
+                    child: Text(
+                      "Tekanan Darah : " + "120/80" + " mmHg",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
+                    child: Text(
+                      "Detak Jantung : " + "40" + " BPM",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
+                    child: Text(
+                      "Stress level : " + "5",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Divider(color: Colors.black),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
+                    child: Text(
+                      "Diagnosa : ",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(25, 0, 15, 10),
+                    child: Text(
+                      "Penyakit Jantung Koroner disertai efek samping yaitu Diabetes",
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
+                    child: Text(
+                      "Obat : ",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(25, 0, 15, 10),
+                    child: Text(
+                      "Aspilet 10 Butir, 2x Sehari \nInsulin, sebelum makan",
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ));
+    // throw UnimplementedError();
+  }
+}
+
+class EditProfile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile"),
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
-          Center(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 50, 0, 10),
-              child: CircleAvatar(
-                radius: 55,
-                backgroundColor: Color(0xffFDCF09),
-              ),
-            ),
+          Container(
+            child: Center(
+                child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 50, 0, 10),
+                  child: CircleAvatar(
+                    radius: 55,
+                    backgroundColor: Color(0xffFDCF09),
+                  ),
+                ),
+                RichText(
+                    text: TextSpan(
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(fontSize: 30),
+                        text: "Jhon Doe"))
+              ],
+            )),
           ),
-          RichText(
-            text: TextSpan(
-              style: Theme.of(context).textTheme.body1.copyWith(fontSize: 30),
-              text: "Jhon Doe",
-            ),
+          ListTile(
+            leading: Icon(Icons.phone),
+            title: Text("Nomor Telephon : " + "00000"),
+            contentPadding: EdgeInsets.fromLTRB(25, 10, 0, 5),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 50, 0, 10),
-            child: RichText(
-              text: TextSpan(children: [
-                WidgetSpan(child: Icon(Icons.party_mode)),
-                TextSpan(text: "Birthad")
-              ]),
-            ),
-          )
+          ListTile(
+            leading: Icon(Icons.cake),
+            title: Text("Tempat, Tanggal Lahir : " + "Semarang, 31 Junli 1992"),
+            contentPadding: EdgeInsets.fromLTRB(25, 5, 0, 5),
+          ),
+          ListTile(
+            leading: Icon(Icons.email),
+            title: Text("Jenis Kelamin: " + "Laki - Laki"),
+            contentPadding: EdgeInsets.fromLTRB(25, 5, 0, 5),
+          ),
+          ListTile(
+            leading: Icon(Icons.location_on),
+            title: Text("Alamat : " + "Jl. Scientia garden no 12"),
+            contentPadding: EdgeInsets.fromLTRB(25, 5, 0, 5),
+          ),
         ],
       ),
     );
