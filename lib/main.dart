@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,19 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ZiCheck',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'ZiCheck'),
@@ -32,17 +25,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
+//status udah login atau belom
+enum LoginStatus { notSignIn, signIn }
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -51,17 +38,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
+
   // int _counter = 0;
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+
     final linkLogin = RichText(
       text: TextSpan(
           text: "Masuk/Login",
@@ -98,79 +83,143 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+
         child: Container(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          // color: Colors.white,
+
           child: Padding(
               padding: const EdgeInsets.all(36.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  // untuk logo zicheck
-                  // SizedBox(
-                  //   height: 155.0,
-                  //   // child: Image.asset(
-                  //   //       "assets/logo.png",
-                  //   //       fit: BoxFit.contain,
-                  //   //     ),
-                  // ),
+
                   linkLogin,
                   linkRegister,
                 ],
               )),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login>{
+
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
+
+  LoginStatus _loginStatus = LoginStatus.notSignIn;
+  String email, password;
+  final _key = new GlobalKey<FormState>();
+
+  check() {
+    final form = _key.currentState;
+    if (form.validate()) {
+      form.save();
+      debugPrint('debug : email: '+emailController.text);
+      debugPrint('debug : pass: '+passController.text);
+      login();
+    }
+  }
+
+  // login ke mysql
+  login() async {
+    debugPrint('debug : masuk pak Eko');
+    final response = await http.post("http://192.168.2.103/flutter/login.php",//ganti sesuai komputer masing2
+        body: {"email": emailController.text, "password": passController.text}).then((response) => response);
+    final data = jsonDecode(response.body);
+    debugPrint('debug : response : '+response.body);
+    int value = data['value'];
+    String pesan = data['message'];
+    String emailAPI = data['email'];
+    String namaAPI = data['nama'];
+    String id = data['id'];
+    if (value == 1) {
+      setState(() {
+        _loginStatus = LoginStatus.signIn;
+        savePref(value, emailAPI, namaAPI, id);
+      });
+      print(pesan);
+      debugPrint('debug : masuk pak Eko 1');
+    } else {
+      print(pesan);
+      debugPrint('debug : masuk pak Eko 2');
+    }
+  }
+
+  //disimpen ke Shared Preferences
+  savePref(int value, String email, String nama, String id) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.setInt("value", value);
+      preferences.setString("nama", nama);
+      preferences.setString("email", email);
+      preferences.setString("id", id);
+      preferences.commit();
+    });
+  }
+
+  //ambil dari Shared Preferences
+  var value;
+  getPref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      value = preferences.getInt("value");
+
+      _loginStatus = value == 1 ? LoginStatus.signIn : LoginStatus.notSignIn;
+    });
+  }
+
+  // signOut atau logOut
+  signOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.setInt("value", null);
+      preferences.commit();
+      _loginStatus = LoginStatus.notSignIn;
+    });
+  }
+
+  //ini tampilan
   @override
   Widget build(BuildContext context) {
-    final emailField = TextField(
+    final emailField = TextFormField(
       obscureText: false,
+      //tampilan
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Email",
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+      //mastiin diisi
+      validator: (e){
+        if (e.isEmpty) {
+          return "Please insert email";
+        }
+      },
+      //nama pas disimpen
+      controller: emailController,
     );
 
-    final passwordField = TextField(
+    final passwordField = TextFormField(
       obscureText: true,
+      //tampilan
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password",
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+      controller: passController,
     );
 
     final loginButton = Material(
@@ -181,10 +230,7 @@ class Login extends StatelessWidget {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => Login()),
-          // );
+          check();
         },
         child: Text("Login",
             textAlign: TextAlign.center,
@@ -198,7 +244,8 @@ class Login extends StatelessWidget {
         title: Text('Login'),
         backgroundColor: Colors.blueAccent,
       ),
-      body: Center(
+      body: Form(
+        key: _key,
         child: Container(
           child: Padding(
             padding: const EdgeInsets.all(36.0),
@@ -215,14 +262,6 @@ class Login extends StatelessWidget {
                 loginButton,
                 SizedBox(height: 15.0),
                 Text('Click button to back to Main Page'),
-                // RaisedButton(
-                //   textColor: Colors.white,
-                //   color: Colors.redAccent,
-                //   child: Text('Back to Main Page'),
-                //   onPressed: () {
-                //     // TODO
-                //   },
-                // )
               ],
             ),
           ),
@@ -343,10 +382,7 @@ class Register extends StatelessWidget {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => Login()),
-          // );
+
         },
         child: Text("Daftar",
             textAlign: TextAlign.center,
@@ -391,14 +427,6 @@ class Register extends StatelessWidget {
                 registerButton,
                 SizedBox(height: 15.0),
                 Text('Click button to back to Main Page'),
-                // RaisedButton(
-                //   textColor: Colors.white,
-                //   color: Colors.redAccent,
-                //   child: Text('Back to Main Page'),
-                //   onPressed: () {
-                //     // TODO
-                //   },
-                // )
               ],
             ),
           ),
