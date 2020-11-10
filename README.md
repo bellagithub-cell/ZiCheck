@@ -1,6 +1,6 @@
-# zicheckk
+# ZiCheck
 
-A new Flutter project.
+A Flutter project for a medical check-up made by the group roniadalahmahasiswaumn
 
 ## Getting Started
 
