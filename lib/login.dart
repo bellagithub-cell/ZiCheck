@@ -21,6 +21,7 @@ class _LoginState extends State<Login>{
   String email, password;
   final _key = new GlobalKey<FormState>();
 
+  //cek validasi
   check() {
     final form = _key.currentState;
     if (form.validate()) {
