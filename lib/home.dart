@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'history.dart';
 import 'editprofile.dart';
 import 'showalert.dart';
+import 'sidemenu.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -15,6 +16,7 @@ class Home extends StatelessWidget {
         mediaQueryData.size.height - paddingBottom - paddingTop - appBarHeight;
 
     return Scaffold(
+      drawer: NavDrawer(),
       appBar: AppBar(
         title: Text("Menu on Top"),
         actions: <Widget>[

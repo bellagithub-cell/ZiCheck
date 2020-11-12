@@ -12,8 +12,7 @@ class Login extends StatefulWidget {
 //status udah login atau belom
 enum LoginStatus { notSignIn, signIn }
 
-class _LoginState extends State<Login>{
-
+class _LoginState extends State<Login> {
   final emailController = TextEditingController();
   final passController = TextEditingController();
 
@@ -26,8 +25,8 @@ class _LoginState extends State<Login>{
     final form = _key.currentState;
     if (form.validate()) {
       form.save();
-      debugPrint('debug : email: '+emailController.text);
-      debugPrint('debug : pass: '+passController.text);
+      debugPrint('debug : email: ' + emailController.text);
+      debugPrint('debug : pass: ' + passController.text);
       login();
     }
   }
@@ -35,10 +34,14 @@ class _LoginState extends State<Login>{
   // login ke mysql
   login() async {
     debugPrint('debug : masuk pak Eko');
-    final response = await http.post("http://192.168.2.103/flutter/login.php",//ganti sesuai komputer masing2
-        body: {"email": emailController.text, "password": passController.text}).then((response) => response);
+    final response = await http.post(
+        "http://192.168.100.13/login.php", //ganti sesuai komputer masing2
+        body: {
+          "email": emailController.text,
+          "password": passController.text
+        }).then((response) => response);
     final data = jsonDecode(response.body);
-    debugPrint('debug : response : '+response.body);
+    debugPrint('debug : response : ' + response.body);
     int value = data['value'];
     String pesan = data['message'];
     String emailAPI = data['email'];
@@ -97,6 +100,20 @@ class _LoginState extends State<Login>{
   //ini tampilan
   @override
   Widget build(BuildContext context) {
+    var mediaQueryData = MediaQuery.of(context);
+    final double heightScreen = mediaQueryData.size.height / 7;
+
+    final logo = Padding(
+        padding: EdgeInsets.fromLTRB(0, heightScreen, 0, heightScreen),
+        child: RichText(
+            text: TextSpan(
+                text: "ZiCheck",
+                style: TextStyle(
+                  fontFamily: 'Monserrat',
+                  fontSize: 50,
+                  color: Colors.blue,
+                ))));
+
     final emailField = TextFormField(
       obscureText: false,
       //tampilan
@@ -105,9 +122,9 @@ class _LoginState extends State<Login>{
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Email",
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       //mastiin diisi
-      validator: (e){
+      validator: (e) {
         if (e.isEmpty) {
           return "Please insert email";
         }
@@ -124,7 +141,7 @@ class _LoginState extends State<Login>{
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password",
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: passController,
     );
 
@@ -150,28 +167,32 @@ class _LoginState extends State<Login>{
         title: Text('Login'),
         backgroundColor: Colors.blueAccent,
       ),
-      body: Form(
-        key: _key,
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                //untuk email
-                SizedBox(height: 45.0),
-                emailField,
-                SizedBox(height: 25.0),
-                passwordField,
-                SizedBox(height: 35.0),
-                loginButton,
-                SizedBox(height: 15.0),
-                Text('Click button to back to Main Page'),
-              ],
+      body: Center(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _key,
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(36.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    logo,
+                    //untuk email
+                    SizedBox(height: 45.0),
+                    emailField,
+                    SizedBox(height: 25.0),
+                    passwordField,
+                    SizedBox(height: 35.0),
+                    loginButton,
+                    SizedBox(height: 15.0),
+                    Text('Click button to back to Main Page'),
+                  ],
+                ),
+              ),
             ),
           ),
-
         ),
       ),
     );
