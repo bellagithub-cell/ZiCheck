@@ -17,7 +17,7 @@ class _LoginState extends State<Login> {
   final passController = TextEditingController();
 
   LoginStatus _loginStatus = LoginStatus.notSignIn;
-  String email, password;
+  //String email, password;
   final _key = new GlobalKey<FormState>();
 
   //cek validasi
@@ -35,7 +35,7 @@ class _LoginState extends State<Login> {
   login() async {
     debugPrint('debug : masuk pak Eko');
     final response = await http.post(
-        "http://192.168.100.13/login.php", //ganti sesuai komputer masing2
+        "http://192.168.2.103/flutter/login.php", //ganti sesuai komputer masing2
         body: {
           "email": emailController.text,
           "password": passController.text

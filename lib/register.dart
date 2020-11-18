@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class Register extends StatefulWidget {
   @override
@@ -8,9 +11,97 @@ class Register extends StatefulWidget {
 
 class _Register extends State<Register> {
   var dateCtl = TextEditingController();
+
+  //controller masing-masing kecuali tgl lahir sama jenis kelamin
+  final namaDepanController = TextEditingController();
+  final namaBlkgController = TextEditingController();
+  final alamatRmhController = TextEditingController();
+  final noHpController = TextEditingController();
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
+  final confPassController = TextEditingController();
+  String _valJenisKelamin;// untuk simpen value gender
+
+  //String email, password;
+
+  final _key = new GlobalKey<FormState>();
+
+  //cek validasi
+  check() {
+    final form = _key.currentState;
+    if (form.validate()) {
+      form.save();
+      debugPrint("ini controller nama Depan :"+namaDepanController.text);
+      debugPrint("ini controller nama Belakang :"+namaBlkgController.text);
+      debugPrint("ini controller tanggal :"+dateCtl.text);
+      debugPrint("ini controller alamat rumah :"+alamatRmhController.text);
+      debugPrint("ini controller no hp :"+noHpController.text);
+      debugPrint("ini controller email :"+emailController.text);
+      debugPrint("ini controller pass :"+passController.text);
+      debugPrint("ini controller confirm password :"+confPassController.text);
+      debugPrint("ini controller jenis_klmn :"+ _valJenisKelamin);
+      if(passController.text == confPassController.text) {
+        registerUser();
+      }
+    }
+  }
+  registerUser() async{
+    if(_valJenisKelamin == "Laki-laki"){
+      _valJenisKelamin = "L";
+    }
+    else{
+      _valJenisKelamin = 'P';
+    }
+    debugPrint("masuk pak eko");
+    final response = await http.post(
+        "http://192.168.2.103/flutter/register.php", //ganti sesuai komputer masing2
+        body: {
+          "nama_depan": namaDepanController.text,
+          "nama_blkg": namaBlkgController.text,
+          "jenis_klmn": _valJenisKelamin,
+          "tgl_lahir": dateCtl.text,
+          "alamat": alamatRmhController.text,
+          "no_hp": noHpController.text,
+          "email": emailController.text,
+          "password": passController.text
+        }).then((response) => response);
+    final data = jsonDecode(response.body);
+    debugPrint('debug : response : ' + response.body);
+    int value = data['value'];
+    String pesan = data['message'];
+    String emailAPI = data['email'];
+    String namaAPI = data['nama'];
+    String id = data['id'];
+    if (value == 1) {
+      setState(() {
+        //_loginStatus = LoginStatus.signIn;
+        savePref(value, emailAPI, namaAPI, id);
+      });
+      print(pesan);
+      debugPrint('debug : masuk pak Eko 1');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );
+    } else {
+      print(pesan);
+      debugPrint('debug : masuk pak Eko 2');
+    }
+  }
+
+  savePref(int value, String email, String nama, String id) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.setInt("value", value);
+      preferences.setString("nama", nama);
+      preferences.setString("email", email);
+      preferences.setString("id", id);
+      preferences.commit();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    String _valJenisKelamin; // untuk simpen value gender
     List _gender = ["Laki-laki", "Perempuan"];
     var mediaQueryData = MediaQuery.of(context);
     final double heightScreen = mediaQueryData.size.height / 15;
@@ -37,6 +128,7 @@ class _Register extends State<Register> {
           prefixIcon: Icon(Icons.supervised_user_circle),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+      controller: namaDepanController,
     );
 
     final namaBelakang = TextFormField(
@@ -49,6 +141,7 @@ class _Register extends State<Register> {
           prefixIcon: Icon(Icons.supervised_user_circle),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+      controller: namaBlkgController,
     );
 
     final jenisKelamin = DropdownButtonFormField(
@@ -114,6 +207,7 @@ class _Register extends State<Register> {
           prefixIcon: Icon(Icons.location_on),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+      controller: alamatRmhController,
     );
 
     final nomorHandphone = TextField(
@@ -126,6 +220,7 @@ class _Register extends State<Register> {
           prefixIcon: Icon(Icons.phone),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+      controller: noHpController,
     );
 
     final emailField = TextField(
@@ -138,6 +233,7 @@ class _Register extends State<Register> {
           prefixIcon: Icon(Icons.email),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+      controller: emailController,
     );
 
     final passwordField = TextField(
@@ -149,6 +245,7 @@ class _Register extends State<Register> {
           prefixIcon: Icon(Icons.vpn_key),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+      controller: passController,
     );
 
     final confirmpasswordField = TextField(
@@ -160,6 +257,7 @@ class _Register extends State<Register> {
           prefixIcon: Icon(Icons.vpn_key),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+      controller: confPassController,
     );
 
     final registerButton = Material(
@@ -170,10 +268,11 @@ class _Register extends State<Register> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          Navigator.push(
+          check();
+          /*Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Home()),
-          );
+          );*/
         },
         child: Text("Daftar",
             textAlign: TextAlign.center,
@@ -188,46 +287,49 @@ class _Register extends State<Register> {
         backgroundColor: Colors.blueAccent,
       ),
       body: SingleChildScrollView(
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                register,
-                //untuk email
-                SizedBox(height: 15.0),
-                namaDepan,
-                SizedBox(height: 15.0),
-                namaBelakang,
-                SizedBox(height: 15.0),
-                jenisKelamin,
-                SizedBox(height: 15.0),
-                tanggalLahir,
-                SizedBox(height: 15.0),
-                alamatRumah,
-                SizedBox(height: 15.0),
-                nomorHandphone,
-                SizedBox(height: 15.0),
-                emailField,
-                SizedBox(height: 15.0),
-                passwordField,
-                SizedBox(height: 15.0),
-                confirmpasswordField,
-                SizedBox(height: 15.0),
-                registerButton,
-                SizedBox(height: 15.0),
-                Text('Click button to back to Main Page'),
-                // RaisedButton(
-                //   textColor: Colors.white,
-                //   color: Colors.redAccent,
-                //   child: Text('Back to Main Page'),
-                //   onPressed: () {
-                //
-                //   },
-                // )
-              ],
+        child: Form(
+          key: _key,
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  register,
+                  //untuk email
+                  SizedBox(height: 15.0),
+                  namaDepan,
+                  SizedBox(height: 15.0),
+                  namaBelakang,
+                  SizedBox(height: 15.0),
+                  jenisKelamin,
+                  SizedBox(height: 15.0),
+                  tanggalLahir,
+                  SizedBox(height: 15.0),
+                  alamatRumah,
+                  SizedBox(height: 15.0),
+                  nomorHandphone,
+                  SizedBox(height: 15.0),
+                  emailField,
+                  SizedBox(height: 15.0),
+                  passwordField,
+                  SizedBox(height: 15.0),
+                  confirmpasswordField,
+                  SizedBox(height: 15.0),
+                  registerButton,
+                  SizedBox(height: 15.0),
+                  Text('Click button to back to Main Page'),
+                  // RaisedButton(
+                  //   textColor: Colors.white,
+                  //   color: Colors.redAccent,
+                  //   child: Text('Back to Main Page'),
+                  //   onPressed: () {
+                  //
+                  //   },
+                  // )
+                ],
+              ),
             ),
           ),
         ),
