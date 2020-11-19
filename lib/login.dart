@@ -35,7 +35,7 @@ class _LoginState extends State<Login> {
   login() async {
     debugPrint('debug : masuk pak Eko');
     final response = await http.post(
-        "http://192.168.100.13/login.php", //ganti sesuai komputer masing2
+        "http://192.168.43.47/login.php", //ganti sesuai komputer masing2
         body: {
           "email": emailController.text,
           "password": passController.text
@@ -121,6 +121,8 @@ class _LoginState extends State<Login> {
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Email",
+          labelText: "Email",
+          prefixIcon: Icon(Icons.email),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       //mastiin diisi
@@ -140,6 +142,8 @@ class _LoginState extends State<Login> {
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password",
+          labelText: "Password",
+          prefixIcon: Icon(Icons.vpn_key),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: passController,
