@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zicheckk/history.dart';
+import 'package:zicheckk/profile.dart';
+import 'package:zicheckk/showalert.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -18,23 +21,38 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.input),
-            title: Text('Welcome'),
+            title: Text('Check Up'),
             onTap: () => {},
           ),
           ListTile(
             leading: Icon(Icons.verified_user),
-            title: Text('Profile'),
-            onTap: () => {Navigator.of(context).pop()},
+            title: Text('Riwayat Checkup'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => History()),
+              )
+            },
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () => {Navigator.of(context).pop()},
+            title: Text('Profile'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Profile()),
+              )
+            },
           ),
           ListTile(
             leading: Icon(Icons.border_color),
-            title: Text('Feedback'),
-            onTap: () => {Navigator.of(context).pop()},
+            title: Text('Darurat'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ShowAlert()),
+              )
+            },
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),

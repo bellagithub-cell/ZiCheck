@@ -17,7 +17,7 @@ class _LoginState extends State<Login> {
   final passController = TextEditingController();
 
   LoginStatus _loginStatus = LoginStatus.notSignIn;
-  String email, password;
+  //String email, password;
   final _key = new GlobalKey<FormState>();
 
   //cek validasi
@@ -44,13 +44,15 @@ class _LoginState extends State<Login> {
     debugPrint('debug : response : ' + response.body);
     int value = data['value'];
     String pesan = data['message'];
-    String emailAPI = data['email'];
-    String namaAPI = data['nama'];
-    String id = data['id'];
+    String emailAPI = data['hasil']['email'];
+    String namadAPI = data['hasil']['nama_depan'];
+    String namabAPI = data['hasil']['nama_blkg'];
+    String id = data['hasil']['id_user'];
+    debugPrint(id);
     if (value == 1) {
       setState(() {
         _loginStatus = LoginStatus.signIn;
-        savePref(value, emailAPI, namaAPI, id);
+        savePref(value, emailAPI, namadAPI, namabAPI, id);
       });
       print(pesan);
       debugPrint('debug : masuk pak Eko 1');
@@ -65,11 +67,13 @@ class _LoginState extends State<Login> {
   }
 
   //disimpen ke Shared Preferences
-  savePref(int value, String email, String nama, String id) async {
+  savePref(
+      int value, String email, String namad, String namab, String id) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       preferences.setInt("value", value);
-      preferences.setString("nama", nama);
+      preferences.setString("namad", namad);
+      preferences.setString("namab", namab);
       preferences.setString("email", email);
       preferences.setString("id", id);
       preferences.commit();

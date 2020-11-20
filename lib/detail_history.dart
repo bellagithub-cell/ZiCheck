@@ -1,6 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart'
+    as http; // add the http plugin in pubspec.yaml file.
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
-class DetailHistory extends StatelessWidget {
+class DetailHistory extends StatefulWidget {
+  @override
+  _DetailHistoryState createState() => _DetailHistoryState();
+}
+
+class _DetailHistoryState extends State<DetailHistory> {
+  // buat ambil id dari share preference
+  String id;
+  var value;
+  getPref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      id = preferences.getString("id");
+      // value = preferences.getInt("value");
+      // id = value;
+      debugPrint(id);
+      user();
+    });
+  }
+
+  user() async {
+    final response = await http.post(
+        "http://192.168.43.47/historydetail.php", //ganti sesuai komputer masing2
+        body: {
+          "id": id,
+        }).then((response) => response);
+    final data = jsonDecode(response.body);
+    debugPrint('debug : response : ' + response.body);
+    for (var i = 0; i < data['hasil'].length; i++) {}
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      getPref();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

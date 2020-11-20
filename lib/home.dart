@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'history.dart';
-import 'editprofile.dart';
+import 'profile.dart';
 import 'showalert.dart';
 import 'sidemenu.dart';
 
@@ -18,14 +18,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       drawer: NavDrawer(),
       appBar: AppBar(
-        title: Text("Menu on Top"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {},
-          ),
-          // ),
-        ],
+        title: Text("Menu"),
       ),
       body: SafeArea(
         child: GridView.count(
@@ -60,7 +53,7 @@ class Home extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EditProfile()),
+                  MaterialPageRoute(builder: (context) => Profile()),
                 );
               },
               child: Center(
