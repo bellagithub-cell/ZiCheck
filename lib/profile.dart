@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/src/widgets/text.dart';
+import 'package:zicheckk/home.dart';
 import 'sidemenu.dart';
 import 'detail_history.dart';
 
@@ -70,10 +71,12 @@ class _ProfileState extends State<Profile> {
     return Container(
       height: screenSize.height / 2.6,
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/coverimage.jpg'),
-          fit: BoxFit.cover,
-        ),
+        color: Color(0xFF6CD4FF),
+        // image: DecorationImage(
+        //     image: AssetImage('assets/images/coverimage.jpg'),
+        //     fit: BoxFit.cover,
+        //     colorFilter: new ColorFilter.mode(
+        //         Colors.white.withOpacity(0.6), BlendMode.dstATop)),
       ),
     );
   }
@@ -85,13 +88,13 @@ class _ProfileState extends State<Profile> {
         height: 140.0,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/logo.png'),
+            image: AssetImage('assets/images/avatar.png'),
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(80.0),
           border: Border.all(
             color: Colors.white,
-            width: 10.0,
+            width: 1.0,
           ),
         ),
       ),
@@ -113,11 +116,11 @@ class _ProfileState extends State<Profile> {
       color: Colors.blue,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width / 2,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => DetailHistory()),
+            MaterialPageRoute(builder: (context) => Home()),
           );
         },
         child: Text("Edit Profile",

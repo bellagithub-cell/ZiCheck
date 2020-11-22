@@ -4,7 +4,25 @@ import 'package:http/http.dart'
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+// class DetailHistory extends StatelessWidget {
+//   // This widget is the root of your application.
+//   String id;
+//   String date;
+//   DetailHistory(Key key, this.id, this.date);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: DHistory(),
+//     );
+//   }
+// }
+
 class DetailHistory extends StatefulWidget {
+  DetailHistory({Key key, this.data}) : super(key: key);
+
+  final Map<String, dynamic> data;
+
   @override
   _DetailHistoryState createState() => _DetailHistoryState();
 }
@@ -32,6 +50,7 @@ class _DetailHistoryState extends State<DetailHistory> {
         }).then((response) => response);
     final data = jsonDecode(response.body);
     debugPrint('debug : response : ' + response.body);
+    // print(this.idcheckup.toString());
     for (var i = 0; i < data['hasil'].length; i++) {}
   }
 
@@ -39,7 +58,7 @@ class _DetailHistoryState extends State<DetailHistory> {
   void initState() {
     super.initState();
     setState(() {
-      getPref();
+      // getPref();
     });
   }
 
@@ -69,7 +88,7 @@ class _DetailHistoryState extends State<DetailHistory> {
                 children: <Widget>[
                   ListTile(
                     title: Text(
-                      "20 November 2019",
+                      widget.data['date_checkup'],
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
@@ -78,7 +97,9 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Suhu Tubuh : " + "38" + " Derajat",
+                      "Suhu Tubuh         : " +
+                          widget.data['body_temp'] +
+                          " Derajat",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -87,7 +108,11 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Tekanan Darah : " + "120/80" + " mmHg",
+                      "Tekanan Darah    : " +
+                          widget.data['blood_press_sis'] +
+                          "/" +
+                          widget.data['blood_press_dias'] +
+                          " mmHg",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -95,7 +120,9 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Detak Jantung : " + "40" + " BPM",
+                      "Detak Jantung    : " +
+                          widget.data['heart_rate'] +
+                          " BPM",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -103,7 +130,7 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Stress level : " + "5",
+                      "Stress level         : " + widget.data['stress_level'],
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -112,7 +139,7 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Diagnosa : ",
+                      "Diagnosa             : ",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -120,26 +147,34 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(25, 0, 15, 10),
                     child: Text(
-                      "Penyakit Jantung Koroner disertai efek samping yaitu Diabetes",
-                      textAlign: TextAlign.justify,
+                      (() {
+                        if (widget.data['diagnosa'] == null) {
+                          return "Pemeriksaan sedang di proses";
+                        } else {
+                          return widget.data['diagnosa'];
+                        }
+                      })(),
+                      textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Obat : ",
+                      "Obat                     : ",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(25, 0, 15, 10),
-                    child: Text(
-                      "Aspilet 10 Butir, 2x Sehari \nInsulin, sebelum makan",
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(fontSize: 16),
-                    ),
+                    child: Text((() {
+                      if (widget.data['obat'] == null) {
+                        return "Pemeriksaan sedang di proses";
+                      } else {
+                        return widget.data['obat'];
+                      }
+                    })()),
                   ),
                 ],
               ),

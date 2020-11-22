@@ -111,7 +111,7 @@ class _Register extends State<Register> {
         padding: EdgeInsets.fromLTRB(0, 10, 0, heightScreen),
         child: RichText(
             text: TextSpan(
-                text: "Register",
+                text: "ZiCheck",
                 style: TextStyle(
                   fontFamily: 'Monserrat',
                   fontSize: 50,
@@ -319,7 +319,7 @@ class _Register extends State<Register> {
                   SizedBox(height: 15.0),
                   registerButton,
                   SizedBox(height: 15.0),
-                  Text('Click button to back to Main Page'),
+                  // Text('Click button to back to Main Page'),
                   // RaisedButton(
                   //   textColor: Colors.white,
                   //   color: Colors.redAccent,

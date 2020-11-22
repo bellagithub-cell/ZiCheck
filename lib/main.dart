@@ -41,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var mediaQueryData = MediaQuery.of(context);
     final double heightScreen = mediaQueryData.size.height / 5;
 
+    // untuk logo zichek
     final logo = Padding(
         padding: EdgeInsets.fromLTRB(0, heightScreen, 0, heightScreen),
         child: RichText(
@@ -52,6 +53,49 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.blue,
                 ))));
 
+    // untuk link button buat login
+    final linkloginButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(12.0),
+      color: Colors.blue,
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Login()),
+          );
+        },
+        child: Text("Sign in",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
+                .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
+    );
+
+    // link button buat register
+    final linkregisterButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(12.0),
+      color: Colors.blue,
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Register()),
+          );
+        },
+        child: Text("Sign Up",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
+                .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
+    );
+
+    // cadangan aja, kalau mau pakai link bisa pakai ini
     final linkLogin = RichText(
       text: TextSpan(
           text: "Masuk/Login",
@@ -99,8 +143,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   logo,
-                  linkLogin,
-                  linkRegister,
+                  linkloginButton,
+                  SizedBox(height: 10.0),
+                  linkregisterButton,
+                  // linkLogin,
+                  // linkRegister,
                 ],
               )),
         ),

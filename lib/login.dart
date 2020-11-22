@@ -195,7 +195,7 @@ class _LoginState extends State<Login> {
                     SizedBox(height: 35.0),
                     loginButton,
                     SizedBox(height: 15.0),
-                    Text('Click button to back to Main Page'),
+                    // Text('Click button to back to Main Page'),
                   ],
                 ),
               ),
