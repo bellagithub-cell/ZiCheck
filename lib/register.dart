@@ -123,8 +123,8 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Nama Depan",
-          labelText: "Nama Depan",
+          hintText: "First Name",
+          labelText: "First Name",
           prefixIcon: Icon(Icons.supervised_user_circle),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -136,8 +136,8 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Nama Belakang",
-          labelText: "Nama Belakang",
+          hintText: "Last Name",
+          labelText: "Last Name",
           prefixIcon: Icon(Icons.supervised_user_circle),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -186,7 +186,7 @@ class _Register extends State<Register> {
                 prefixIcon: Icon(Icons.date_range),
                 contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                 // hintText: "Tanggal Lahir",
-                labelText: "Tanggal Lahir",
+                labelText: "Birth Of Date",
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0))),
             onTap: () {
@@ -202,8 +202,8 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Alamat Rumah",
-          labelText: "Alamat Rumah",
+          hintText: "Address",
+          labelText: "Address",
           prefixIcon: Icon(Icons.location_on),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -216,7 +216,7 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Nomor Handphone",
+          hintText: "Phone Number",
           prefixIcon: Icon(Icons.phone),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -241,7 +241,7 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Kata Sandi",
+          hintText: "Password",
           prefixIcon: Icon(Icons.vpn_key),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -253,7 +253,7 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Konfirmasi Sandi",
+          hintText: "Confirm Password",
           prefixIcon: Icon(Icons.vpn_key),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -274,7 +274,7 @@ class _Register extends State<Register> {
             MaterialPageRoute(builder: (context) => Home()),
           );*/
         },
-        child: Text("Daftar",
+        child: Text("Sign Up",
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
                 .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),

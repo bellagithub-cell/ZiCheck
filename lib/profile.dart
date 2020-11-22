@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/src/widgets/text.dart';
+import 'package:zicheckk/edit_profile.dart';
 import 'package:zicheckk/home.dart';
 import 'sidemenu.dart';
 import 'detail_history.dart';
@@ -24,6 +25,8 @@ class _ProfileState extends State<Profile> {
   String alamatrmh;
   String email;
   String tgllahir;
+
+  // dapetin id user
   getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
@@ -35,6 +38,7 @@ class _ProfileState extends State<Profile> {
     });
   }
 
+  // ambil data user sesuai id
   user() async {
     final response = await http
         .post("http://192.168.43.47/user.php", //ganti sesuai komputer masing2
@@ -67,6 +71,7 @@ class _ProfileState extends State<Profile> {
     });
   }
 
+  // background cover image
   Widget _buildCoverImage(Size screenSize) {
     return Container(
       height: screenSize.height / 2.6,
@@ -81,6 +86,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  // profile image
   Widget _buildProfileImage() {
     return Center(
       child: Container(
@@ -101,6 +107,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  // buat loading UI yg muter2
   Future<bool> fetchData() => Future.delayed(Duration(seconds: 5), () {
         debugPrint('Step 1, fetch data');
         return true;
@@ -110,25 +117,22 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    final loginButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(12.0),
-      color: Colors.blue,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width / 2,
-        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
-        },
-        child: Text("Edit Profile",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
-                .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
-    );
+    // buat edit button
+    final editButton = Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 7, 8),
+        child: Align(
+          alignment: Alignment.bottomRight,
+          child: FloatingActionButton(
+              backgroundColor: Colors.blue,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditProfile()),
+                );
+              },
+              tooltip: 'Toggle',
+              child: Icon(Icons.create)),
+        ));
 
     return Scaffold(
         drawer: NavDrawer(),
@@ -230,10 +234,10 @@ class _ProfileState extends State<Profile> {
                                       fontFamily: 'BalooBhai', fontSize: 20.0),
                                 ),
                               )),
-                          loginButton,
                         ],
                       ),
-                    ))
+                    )),
+                    editButton,
                   ],
                 );
               } else {

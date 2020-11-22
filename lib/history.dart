@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'detail_history.dart';
 import 'dart:convert';
-import 'package:http/http.dart'
-    as http; // add the http plugin in pubspec.yaml file.
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'sidemenu.dart';
 
@@ -36,6 +35,7 @@ class _HistoryState extends State<History> {
     });
   }
 
+  // buat ambil data history dari sql
   user() async {
     final response = await http.post(
         "http://192.168.43.47/history.php", //ganti sesuai komputer masing2
@@ -48,7 +48,7 @@ class _HistoryState extends State<History> {
     print("length : " + data['hasil'].length.toString());
     int pdata = data['hasil'].length.toInt();
     print("pdata is : " + pdata.toString());
-    // print(data['hasil'][0].toString());
+    // tampung json decode ke array list
     for (var i = 0; i < pdata; i++) {
       // ardata.add(data['hasil'][i].toString());
       // arid.add(data['hasil'][i]['id_checkup']);
@@ -69,6 +69,7 @@ class _HistoryState extends State<History> {
     });
   }
 
+  // buat loading UI yg muter2
   Future<bool> fetchData() => Future.delayed(Duration(seconds: 5), () {
         debugPrint('Step 1, fetch data');
         return true;
