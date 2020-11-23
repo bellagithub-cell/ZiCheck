@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
             MaterialPageRoute(builder: (context) => Login()),
           );
         },
-        child: Text("Sign in",
+        child: Text("Sign In",
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
                 .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),

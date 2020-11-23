@@ -54,7 +54,7 @@ class _Register extends State<Register> {
     }
     debugPrint("masuk pak eko");
     final response = await http.post(
-        "http://192.168.2.103/flutter/register.php", //ganti sesuai komputer masing2
+        "http://192.168.43.47/register.php", //ganti sesuai komputer masing2
         body: {
           "nama_depan": namaDepanController.text,
           "nama_blkg": namaBlkgController.text,
