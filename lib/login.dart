@@ -35,7 +35,7 @@ class _LoginState extends State<Login> {
   login() async {
     debugPrint('debug : masuk pak Eko');
     final response = await http.post(
-        "http://192.168.43.47/login.php", //ganti sesuai komputer masing2
+        "http://192.168.2.103/flutter/login.php", //ganti sesuai komputer masing2
         body: {
           "email": emailController.text,
           "password": passController.text

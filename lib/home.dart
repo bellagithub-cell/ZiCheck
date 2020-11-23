@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zicheckk/check.dart';
 import 'history.dart';
 import 'profile.dart';
 import 'showalert.dart';
@@ -26,7 +27,12 @@ class Home extends StatelessWidget {
           childAspectRatio: widthScreen / heightScreen,
           children: <Widget>[
             FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                MaterialPageRoute(builder: (context) => Check()),
+                );
+              },
               child: Center(
                 child: Icon(
                   Icons.medical_services_outlined,
