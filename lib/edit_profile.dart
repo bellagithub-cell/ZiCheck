@@ -3,6 +3,7 @@ import 'home.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'global.dart' as global;
 
 class EditProfile extends StatefulWidget {
   @override
@@ -43,7 +44,7 @@ class _EditProfile extends State<EditProfile> {
   // ambil data user sesuai id
   user() async {
     final response = await http
-        .post("http://192.168.43.47/user.php", //ganti sesuai komputer masing2
+        .post(global.ipServer+"/flutter/user.php", //ganti sesuai komputer masing2
             body: {
           "id": id,
         }).then((response) => response);
@@ -82,7 +83,7 @@ class _EditProfile extends State<EditProfile> {
   updatedata() async {
     debugPrint("masuk pak eko");
     final response = await http
-        .post("http://192.168.43.47/update.php", //ganti sesuai komputer masing2
+        .post(global.ipServer+"/flutter/update.php", //ganti sesuai komputer masing2
             body: {
           "nama_depan": namaDepanController.text,
           "nama_blkg": namaBlkgController.text,

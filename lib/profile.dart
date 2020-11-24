@@ -7,6 +7,7 @@ import 'package:zicheckk/edit_profile.dart';
 import 'package:zicheckk/home.dart';
 import 'sidemenu.dart';
 import 'detail_history.dart';
+import 'global.dart' as global;
 
 class Profile extends StatefulWidget {
   @override
@@ -41,7 +42,7 @@ class _ProfileState extends State<Profile> {
   // ambil data user sesuai id
   user() async {
     final response = await http
-        .post("http://192.168.43.47/user.php", //ganti sesuai komputer masing2
+        .post(global.ipServer+"/flutter/user.php", //ganti sesuai komputer masing2
             body: {
           "id": id,
         }).then((response) => response);

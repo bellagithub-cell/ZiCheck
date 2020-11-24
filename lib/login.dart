@@ -3,6 +3,7 @@ import 'home.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'global.dart' as global;
 
 class Login extends StatefulWidget {
   @override
@@ -35,7 +36,7 @@ class _LoginState extends State<Login> {
   login() async {
     debugPrint('debug : masuk pak Eko');
     final response = await http.post(
-        "http://192.168.2.103/flutter/login.php", //ganti sesuai komputer masing2
+        global.ipServer+"/flutter/login.php", //ganti sesuai komputer masing2
         body: {
           "email": emailController.text,
           "password": passController.text
@@ -44,12 +45,12 @@ class _LoginState extends State<Login> {
     debugPrint('debug : response : ' + response.body);
     int value = data['value'];
     String pesan = data['message'];
-    String emailAPI = data['hasil']['email'];
-    String namadAPI = data['hasil']['nama_depan'];
-    String namabAPI = data['hasil']['nama_blkg'];
-    String id = data['hasil']['id_user'];
-    debugPrint(id);
     if (value == 1) {
+      String emailAPI = data['hasil']['email'];
+      String namadAPI = data['hasil']['nama_depan'];
+      String namabAPI = data['hasil']['nama_blkg'];
+      String id = data['hasil']['id_user'];
+      debugPrint(id);
       setState(() {
         _loginStatus = LoginStatus.signIn;
         savePref(value, emailAPI, namadAPI, namabAPI, id);

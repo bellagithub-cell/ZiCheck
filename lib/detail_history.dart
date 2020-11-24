@@ -3,6 +3,7 @@ import 'package:http/http.dart'
     as http; // add the http plugin in pubspec.yaml file.
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'global.dart' as global;
 
 // class DetailHistory extends StatelessWidget {
 //   // This widget is the root of your application.
@@ -44,7 +45,7 @@ class _DetailHistoryState extends State<DetailHistory> {
 
   user() async {
     final response = await http.post(
-        "http://192.168.43.47/historydetail.php", //ganti sesuai komputer masing2
+        global.ipServer+"/flutter/historydetail.php", //ganti sesuai komputer masing2
         body: {
           "id": id,
         }).then((response) => response);

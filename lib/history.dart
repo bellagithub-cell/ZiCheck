@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'sidemenu.dart';
+import 'global.dart' as global;
 
 class History extends StatefulWidget {
   @override
@@ -38,7 +39,7 @@ class _HistoryState extends State<History> {
   // buat ambil data history dari sql
   user() async {
     final response = await http.post(
-        "http://192.168.43.47/history.php", //ganti sesuai komputer masing2
+        global.ipServer+"/flutter/history.php", //ganti sesuai komputer masing2
         body: {
           "id": id,
         }).then((response) => response);

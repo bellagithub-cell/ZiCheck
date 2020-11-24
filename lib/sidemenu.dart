@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:zicheckk/history.dart';
+import 'package:zicheckk/main.dart';
 import 'package:zicheckk/profile.dart';
 import 'package:zicheckk/showalert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavDrawer extends StatelessWidget {
+
+  signOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setInt("value", null);
+    preferences.commit();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -57,7 +67,13 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {
+              signOut(),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyApp()),
+              ),
+            }
           ),
         ],
       ),

@@ -3,6 +3,7 @@ import 'home.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'global.dart' as global;
 
 class Register extends StatefulWidget {
   @override
@@ -54,7 +55,7 @@ class _Register extends State<Register> {
     }
     debugPrint("masuk pak eko");
     final response = await http.post(
-        "http://192.168.2.103/flutter/register.php", //ganti sesuai komputer masing2
+        global.ipServer+"/flutter/register.php", //ganti sesuai komputer masing2
         body: {
           "nama_depan": namaDepanController.text,
           "nama_blkg": namaBlkgController.text,
@@ -69,13 +70,16 @@ class _Register extends State<Register> {
     debugPrint('debug : response : ' + response.body);
     int value = data['value'];
     String pesan = data['message'];
-    String emailAPI = data['email'];
-    String namaAPI = data['nama'];
-    String id = data['id'];
+
     if (value == 1) {
+      String emailAPI = data['hasil']['email'];
+      String namadAPI = data['hasil']['nama_depan'];
+      String namabAPI = data['hasil']['nama_blkg'];
+      String id = data['hasil']['id_user'];
+      debugPrint(id);
       setState(() {
         //_loginStatus = LoginStatus.signIn;
-        savePref(value, emailAPI, namaAPI, id);
+        savePref(value, emailAPI, namadAPI, namabAPI, id);
       });
       print(pesan);
       debugPrint('debug : masuk pak Eko 1');
@@ -89,11 +93,13 @@ class _Register extends State<Register> {
     }
   }
 
-  savePref(int value, String email, String nama, String id) async {
+  savePref(
+      int value, String email, String namad, String namab, String id) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       preferences.setInt("value", value);
-      preferences.setString("nama", nama);
+      preferences.setString("namad", namad);
+      preferences.setString("namab", namab);
       preferences.setString("email", email);
       preferences.setString("id", id);
       preferences.commit();
