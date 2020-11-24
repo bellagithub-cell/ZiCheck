@@ -34,6 +34,8 @@ dependencies:
   wakelock: ^0.1.4+1
   flutter_better_camera: ^0.6.1
   torch_compat: ^1.0.2
+  url_launcher: ^5.7.10
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

@@ -3,7 +3,7 @@ import 'home.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'global.dart' as global;
+import 'dokter.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -35,32 +35,51 @@ class _LoginState extends State<Login> {
   // login ke mysql
   login() async {
     debugPrint('debug : masuk pak Eko');
-    final response = await http.post(
-        global.ipServer+"/flutter/login.php", //ganti sesuai komputer masing2
-        body: {
-          "email": emailController.text,
-          "password": passController.text
-        }).then((response) => response);
+    // nanya dia dokter bukan
+    String temp = emailController.text;
+    String cekdokter = emailController.text.substring(temp.length - 11);
+    String url;
+    print("substring : " + cekdokter);
+    if (cekdokter == "@dokter.com") {
+      url =
+          "http://192.168.43.47/logindokter.php"; //ganti sesuai komputer masing2
+    } else {
+      url = "http://192.168.43.47/login.php"; //ganti sesuai komputer masing2
+    }
+    final response = await http.post(url, body: {
+      "email": emailController.text,
+      "password": passController.text
+    }).then((response) => response);
     final data = jsonDecode(response.body);
     debugPrint('debug : response : ' + response.body);
     int value = data['value'];
     String pesan = data['message'];
+    String emailAPI = data['hasil']['email'];
+    String namadAPI = data['hasil']['nama_depan'];
+    String namabAPI = data['hasil']['nama_blkg'];
+    //simpen id dokter
+    // print(data['hasil']['id_dokter']);
+    String iddok = data['hasil']['id_dokter'];
+    String id = data['hasil']['id_user'];
+    debugPrint(id);
     if (value == 1) {
-      String emailAPI = data['hasil']['email'];
-      String namadAPI = data['hasil']['nama_depan'];
-      String namabAPI = data['hasil']['nama_blkg'];
-      String id = data['hasil']['id_user'];
-      debugPrint(id);
       setState(() {
         _loginStatus = LoginStatus.signIn;
-        savePref(value, emailAPI, namadAPI, namabAPI, id);
+        savePref(value, emailAPI, namadAPI, namabAPI, id, iddok);
       });
       print(pesan);
       debugPrint('debug : masuk pak Eko 1');
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Home()),
-      );
+      if (cekdokter == '@dokter.com') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Dokter()),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      }
     } else {
       print(pesan);
       debugPrint('debug : masuk pak Eko 2');
@@ -68,8 +87,8 @@ class _LoginState extends State<Login> {
   }
 
   //disimpen ke Shared Preferences
-  savePref(
-      int value, String email, String namad, String namab, String id) async {
+  savePref(int value, String email, String namad, String namab, String id,
+      String iddok) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       preferences.setInt("value", value);
@@ -77,6 +96,7 @@ class _LoginState extends State<Login> {
       preferences.setString("namab", namab);
       preferences.setString("email", email);
       preferences.setString("id", id);
+      preferences.setString("iddok", iddok);
       preferences.commit();
     });
   }

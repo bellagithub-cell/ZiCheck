@@ -1,50 +1,44 @@
 import 'package:flutter/material.dart';
+import 'dokter.dart';
 import 'home.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'global.dart' as global;
+import 'package:intl/intl.dart';
 
-class EditProfile extends StatefulWidget {
+class InsertDiagnosa extends StatefulWidget {
   @override
-  _EditProfile createState() => _EditProfile();
+  _InsertDiagnosa createState() => _InsertDiagnosa();
 }
 
-class _EditProfile extends State<EditProfile> {
+class _InsertDiagnosa extends State<InsertDiagnosa> {
   final _key = new GlobalKey<FormState>();
   List data;
   String id;
   var value;
-  String namad;
-  String namab;
-  String nohp;
-  String alamatrmh;
-  String email;
   bool visible = false;
 
   //controller masing-masing kecuali tgl lahir sama jenis kelamin
-  var namaDepanController = TextEditingController();
-  var namaBlkgController = TextEditingController();
-  var alamatRmhController = TextEditingController();
-  var noHpController = TextEditingController();
-  var emailController = TextEditingController();
+  var diagnoseController = TextEditingController();
+  var medicineController = TextEditingController();
+  var idcheckupController = TextEditingController();
 
   // dapetin id user
   getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      id = preferences.getString("id");
+      id = preferences.getString("iddok");
       // value = preferences.getInt("value");
       // id = value;
       debugPrint(id);
-      user();
+      // user();
     });
   }
 
   // ambil data user sesuai id
   user() async {
     final response = await http
-        .post(global.ipServer+"/flutter/user.php", //ganti sesuai komputer masing2
+        .post("http://192.168.43.47/user.php", //ganti sesuai komputer masing2
             body: {
           "id": id,
         }).then((response) => response);
@@ -52,18 +46,6 @@ class _EditProfile extends State<EditProfile> {
     debugPrint('debug : response : ' + response.body);
     int value = data['value'];
     String pesan = data['message'];
-    this.namad = data['hasil']['nama_depan'];
-    this.namab = data['hasil']['nama_blkg'];
-    this.nohp = data['hasil']['no_hp'];
-    this.alamatrmh = data['hasil']['alamat_rmh'];
-    this.email = data['hasil']['email'];
-
-    //controller masing-masing kecuali tgl lahir sama jenis kelamin
-    namaDepanController.text = namad;
-    namaBlkgController.text = namab;
-    noHpController.text = nohp;
-    alamatRmhController.text = alamatrmh;
-    emailController.text = email;
   }
 
   //cek validasi
@@ -71,31 +53,33 @@ class _EditProfile extends State<EditProfile> {
     final form = _key.currentState;
     if (form.validate()) {
       form.save();
-      debugPrint("ini controller nama Depan :" + namaDepanController.text);
-      debugPrint("ini controller nama Belakang :" + namaBlkgController.text);
-      debugPrint("ini controller alamat rumah :" + alamatRmhController.text);
-      debugPrint("ini controller no hp :" + noHpController.text);
-      debugPrint("ini controller email :" + emailController.text);
-      updatedata();
+      debugPrint("ini controller diagnose :" + diagnoseController.text);
+      debugPrint("ini controller medicine :" + medicineController.text);
+      debugPrint("ini controller id_checkup: " + idcheckupController.text);
+      insertdata();
     }
   }
 
-  updatedata() async {
+  insertdata() async {
     debugPrint("masuk pak eko");
-    final response = await http
-        .post(global.ipServer+"/flutter/update.php", //ganti sesuai komputer masing2
-            body: {
-          "nama_depan": namaDepanController.text,
-          "nama_blkg": namaBlkgController.text,
-          "alamat": alamatRmhController.text,
-          "no_hp": noHpController.text,
-          "email": emailController.text,
-          "id_user": id,
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    print("now: " + formattedDate); // 2016-01-25
+    print("id : " + id);
+    final response = await http.post(
+        "http://192.168.43.47/insertdiagnose.php", //ganti sesuai komputer masing2
+        body: {
+          "diagnosa": diagnoseController.text,
+          "obat": medicineController.text,
+          "id_dokter": id,
+          "date_hasil": formattedDate,
+          "id_checkup": idcheckupController.text,
         }).then((response) => response);
     final data = jsonDecode(response.body);
     debugPrint('debug : response : ' + response.body);
     // loadprogress();
-    Navigator.pop(context, true);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Dokter()));
   }
 
   loadprogress() {
@@ -130,78 +114,55 @@ class _EditProfile extends State<EditProfile> {
     var mediaQueryData = MediaQuery.of(context);
     final double heightScreen = mediaQueryData.size.height / 15;
 
-    final namaDepan = TextFormField(
-      obscureText: false,
-      style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "First Name",
-          labelText: "First Name",
-          prefixIcon: Icon(Icons.supervised_user_circle),
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
-      controller: namaDepanController,
-    );
-
-    final namaBelakang = TextFormField(
-      obscureText: false,
-      style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Last Name",
-          labelText: "Last Name",
-          prefixIcon: Icon(Icons.supervised_user_circle),
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
-      controller: namaBlkgController,
-    );
-
-    final alamatRumah = TextField(
+    final diagnose = TextField(
       obscureText: false,
       keyboardType: TextInputType.multiline,
       maxLines: null,
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Address",
-          labelText: "Address",
+          hintText: "Diagnose",
+          labelText: "Diagnose",
           prefixIcon: Icon(Icons.location_on),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
-      controller: alamatRmhController,
+      controller: diagnoseController,
     );
 
-    final nomorHandphone = TextField(
+    final medicine = TextField(
       obscureText: false,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Phone Number",
-          prefixIcon: Icon(Icons.phone),
+          hintText: "Medicine",
+          labelText: "Medicine",
+          prefixIcon: Icon(Icons.location_on),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
-      controller: noHpController,
+      controller: medicineController,
     );
 
-    final emailField = TextField(
+    final idcheckup = TextFormField(
       obscureText: false,
-      keyboardType: TextInputType.emailAddress,
+      //tampilan
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Email",
-          prefixIcon: Icon(Icons.email),
+          hintText: "ID Checkup",
+          labelText: "ID Checkup",
+          prefixIcon: Icon(Icons.vpn_key),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
-      controller: emailController,
+      controller: idcheckupController,
     );
 
     final editprofile = Padding(
         padding: EdgeInsets.fromLTRB(0, 10, 0, heightScreen),
         child: RichText(
             text: TextSpan(
-                text: "Form Edit Profile",
+                text: "Form Insert Diagnose",
                 style: TextStyle(
                   fontFamily: 'Monserrat',
                   fontSize: 50,
@@ -228,7 +189,7 @@ class _EditProfile extends State<EditProfile> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("Edit Profile"),
+          title: Text("Insert Diagnose"),
         ),
         body: SingleChildScrollView(
             child: Form(
@@ -242,15 +203,11 @@ class _EditProfile extends State<EditProfile> {
                           children: <Widget>[
                             editprofile,
                             SizedBox(height: 15.0),
-                            namaDepan,
+                            diagnose,
                             SizedBox(height: 15.0),
-                            namaBelakang,
+                            medicine,
                             SizedBox(height: 15.0),
-                            alamatRumah,
-                            SizedBox(height: 15.0),
-                            nomorHandphone,
-                            SizedBox(height: 15.0),
-                            emailField,
+                            idcheckup,
                             SizedBox(height: 15.0),
                             saveButton,
                             Visibility(
