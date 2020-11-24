@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dokter.dart';
+import 'global.dart' as global;
 
 class Login extends StatefulWidget {
   @override
@@ -42,9 +43,9 @@ class _LoginState extends State<Login> {
     print("substring : " + cekdokter);
     if (cekdokter == "@dokter.com") {
       url =
-          "http://192.168.43.47/logindokter.php"; //ganti sesuai komputer masing2
+          global.ipServer+"/flutter/logindokter.php"; //ganti sesuai komputer masing2
     } else {
-      url = "http://192.168.43.47/login.php"; //ganti sesuai komputer masing2
+      url = global.ipServer+"/flutter/login.php"; //ganti sesuai komputer masing2
     }
     final response = await http.post(url, body: {
       "email": emailController.text,
