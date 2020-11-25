@@ -3,7 +3,7 @@ import 'detail_history.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'global.dart' as global;
 import 'detailcheckup.dart';
 
 class Dokter extends StatefulWidget {
@@ -38,7 +38,7 @@ class _DokterState extends State<Dokter> {
   // buat ambil data history dari sql
   user() async {
     final response = await http.post(
-        "http://192.168.43.47/checkup.php", //ganti sesuai komputer masing2
+        global.ipServer+"/flutter/checkup.php", //ganti sesuai komputer masing2
         body: {
           "id": id,
         }).then((response) => response);

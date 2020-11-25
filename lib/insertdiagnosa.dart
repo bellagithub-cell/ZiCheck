@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'global.dart' as global;
 
 class InsertDiagnosa extends StatefulWidget {
   @override
@@ -38,7 +39,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
   // ambil data user sesuai id
   user() async {
     final response = await http
-        .post("http://192.168.43.47/user.php", //ganti sesuai komputer masing2
+        .post(global.ipServer+"/flutter/user.php", //ganti sesuai komputer masing2
             body: {
           "id": id,
         }).then((response) => response);
@@ -68,7 +69,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
     print("now: " + formattedDate); // 2016-01-25
     print("id : " + id);
     final response = await http.post(
-        "http://192.168.43.47/insertdiagnose.php", //ganti sesuai komputer masing2
+        global.ipServer+"/flutter/insertdiagnose.php", //ganti sesuai komputer masing2
         body: {
           "diagnosa": diagnoseController.text,
           "obat": medicineController.text,

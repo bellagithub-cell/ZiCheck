@@ -1,8 +1,11 @@
 import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:zicheckk/dokter.dart';
+import 'package:zicheckk/home.dart';
 import 'package:zicheckk/login.dart';
 import 'register.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,6 +38,49 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   // int _counter = 0;
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var value,namad,namab,email,id,iddok;
+
+    getPref() async {
+      debugPrint("masuk ke getPref");
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      setState(() {
+        value = preferences.getInt("value");
+        namad = preferences.getString("namad");
+        namab = preferences.getString("namab");
+        email = preferences.getString("email");
+        id = preferences.getString("id");
+        iddok = preferences.getString("iddok");
+      });
+      debugPrint("value = "+value.toString());
+      debugPrint("namad = "+namad);
+      debugPrint("namab = "+namab);
+      debugPrint("email = "+email);
+      debugPrint("id = "+id.toString());
+      debugPrint("iddok = "+iddok.toString());
+      if (value == 1) {
+        debugPrint("masuk cuy");
+        if(email.toString().contains("@dokter.com")){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Dokter()),
+          );
+        }
+        else{
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Home()),
+          );
+        }
+      }
+    }
+
+    getPref();
+  }
 
   @override
   Widget build(BuildContext context) {
