@@ -10,8 +10,12 @@ class NavDrawer extends StatelessWidget {
   signOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setInt("value", null);
+    preferences.setString("namad", null);
+    preferences.setString("namab", null);
+    preferences.setString("email", null);
+    preferences.setString("id", null);
+    preferences.setString("iddok", null);
     preferences.commit();
-
   }
 
   @override

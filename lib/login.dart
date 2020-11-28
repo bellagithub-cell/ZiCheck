@@ -55,15 +55,17 @@ class _LoginState extends State<Login> {
     debugPrint('debug : response : ' + response.body);
     int value = data['value'];
     String pesan = data['message'];
-    String emailAPI = data['hasil']['email'];
-    String namadAPI = data['hasil']['nama_depan'];
-    String namabAPI = data['hasil']['nama_blkg'];
-    //simpen id dokter
-    // print(data['hasil']['id_dokter']);
-    String iddok = data['hasil']['id_dokter'];
-    String id = data['hasil']['id_user'];
-    debugPrint(id);
+
     if (value == 1) {
+      String emailAPI = data['hasil']['email'];
+      String namadAPI = data['hasil']['nama_depan'];
+      String namabAPI = data['hasil']['nama_blkg'];
+      //simpen id dokter
+      // print(data['hasil']['id_dokter']);
+      String iddok = data['hasil']['id_dokter'];
+      String id = data['hasil']['id_user'];
+      debugPrint(id);
+
       setState(() {
         _loginStatus = LoginStatus.signIn;
         savePref(value, emailAPI, namadAPI, namabAPI, id, iddok);
@@ -71,19 +73,96 @@ class _LoginState extends State<Login> {
       print(pesan);
       debugPrint('debug : masuk pak Eko 1');
       if (cekdokter == '@dokter.com') {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Dokter()),
+        Widget cekButton = FlatButton(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Dokter()),
+              );
+            },
+            child: Icon(Icons.check));
+
+        //bikin alert
+        AlertDialog alert = AlertDialog(
+          title: Text("Login Berhasil"),
+          content: Text(
+            "Login berhasil sebagai dokter"+emailAPI,
+            textAlign: TextAlign.justify,
+          ),
+          actions: [
+            cekButton
+          ],
+        );
+
+        //nampilin alertnya
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          },
+          barrierDismissible: false,
         );
       } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Home()),
+        //bikin button buat alert
+        Widget cekButton = FlatButton(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Home()),
+              );
+            },
+            child: Icon(Icons.check));
+
+        //bikin alert
+        AlertDialog alert = AlertDialog(
+          title: Text("Login Berhasil"),
+          content: Text(
+            "Login berhasil sebagai "+emailAPI,
+            textAlign: TextAlign.justify,
+          ),
+          actions: [
+            cekButton
+          ],
+        );
+
+        //nampilin alertnya
+        showDialog(
+          context: context,
+            builder: (BuildContext context) {
+              return alert;
+            },
+          barrierDismissible: false,
         );
       }
     } else {
       print(pesan);
       debugPrint('debug : masuk pak Eko 2');
+      Widget cekButton = FlatButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          child: Text("Ok"));
+
+      //bikin alert
+      AlertDialog alert = AlertDialog(
+        title: Text("Login Gagal"),
+        content: Text(
+          "Email atau password salah",
+          textAlign: TextAlign.justify,
+        ),
+        actions: [
+          cekButton
+        ],
+      );
+
+      //nampilin alertnya
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+        //barrierDismissible: false,
+      );
     }
   }
 
@@ -99,27 +178,6 @@ class _LoginState extends State<Login> {
       preferences.setString("id", id);
       preferences.setString("iddok", iddok);
       preferences.commit();
-    });
-  }
-
-  //ambil dari Shared Preferences
-  var value;
-  getPref() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      value = preferences.getInt("value");
-
-      _loginStatus = value == 1 ? LoginStatus.signIn : LoginStatus.notSignIn;
-    });
-  }
-
-  // signOut atau logOut
-  signOut() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      preferences.setInt("value", null);
-      preferences.commit();
-      _loginStatus = LoginStatus.notSignIn;
     });
   }
 

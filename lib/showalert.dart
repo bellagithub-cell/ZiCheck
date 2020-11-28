@@ -6,7 +6,7 @@ class ShowAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget cekButton = FlatButton(
         onPressed: () {
-          launch("tel://21213123123");
+          launch("tel://118");
         },
         child: Icon(Icons.check));
     AlertDialog alert = AlertDialog(
