@@ -22,6 +22,7 @@ class _Register extends State<Register> {
   final passController = TextEditingController();
   final confPassController = TextEditingController();
   String _valJenisKelamin; // untuk simpen value gender
+  String valJenisKlmn;
 
   //String email, password;
 
@@ -44,14 +45,41 @@ class _Register extends State<Register> {
       if (passController.text == confPassController.text) {
         registerUser();
       }
+      else{
+        Widget cekButton = FlatButton(
+            onPressed: (){
+              Navigator.pop(context);
+            },
+            child: Text("Ok"));
+
+        //bikin alert
+        AlertDialog alert = AlertDialog(
+          title: Text("Register Gagal"),
+          content: Text(
+            "Password tidak sama",
+            textAlign: TextAlign.justify,
+          ),
+          actions: [
+            cekButton
+          ],
+        );
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          },
+          //barrierDismissible: false,
+        );
+      }
     }
   }
 
   registerUser() async {
     if (_valJenisKelamin == "Laki-laki") {
-      _valJenisKelamin = "L";
+      valJenisKlmn = "L";
     } else {
-      _valJenisKelamin = 'P';
+      valJenisKlmn = 'P';
     }
     debugPrint("masuk pak eko");
     final response = await http.post(
@@ -59,7 +87,7 @@ class _Register extends State<Register> {
         body: {
           "nama_depan": namaDepanController.text,
           "nama_blkg": namaBlkgController.text,
-          "jenis_klmn": _valJenisKelamin,
+          "jenis_klmn": valJenisKlmn,
           "tgl_lahir": dateCtl.text,
           "alamat": alamatRmhController.text,
           "no_hp": noHpController.text,
@@ -70,33 +98,93 @@ class _Register extends State<Register> {
     debugPrint('debug : response : ' + response.body);
     int value = data['value'];
     String pesan = data['message'];
-    String emailAPI = data['email'];
-    String namaAPI = data['nama'];
-    String id = data['id'];
     if (value == 1) {
+
+      String emailAPI = data['hasil']['email'];
+      String namadAPI = data['hasil']['nama_depan'];
+      String namabAPI = data['hasil']['nama_blkg'];
+      //simpen id dokter
+      // print(data['hasil']['id_dokter']);
+      String iddok = data['hasil']['id_dokter'];
+      String id = data['hasil']['id_user'];
       setState(() {
         //_loginStatus = LoginStatus.signIn;
-        savePref(value, emailAPI, namaAPI, id);
+        savePref(value, emailAPI, namadAPI, namabAPI, id, iddok);
       });
       print(pesan);
       debugPrint('debug : masuk pak Eko 1');
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Home()),
+
+      Widget cekButton = FlatButton(
+          onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+          },
+          child: Icon(Icons.check));
+
+      //bikin alert
+      AlertDialog alert = AlertDialog(
+        title: Text("Login Berhasil"),
+        content: Text(
+          "Masuk sebagai "+emailAPI,
+          textAlign: TextAlign.justify,
+        ),
+        actions: [
+          cekButton
+        ],
+      );
+
+      //nampilin alertnya
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+        barrierDismissible: false,
       );
     } else {
       print(pesan);
       debugPrint('debug : masuk pak Eko 2');
+      Widget cekButton = FlatButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          child: Text("Ok"));
+
+      //bikin alert
+      AlertDialog alert = AlertDialog(
+        title: Text("Register Gagal"),
+        content: Text(
+          "Email atau password tidak bisa digunakan",
+          textAlign: TextAlign.justify,
+        ),
+        actions: [
+          cekButton
+        ],
+      );
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+        //barrierDismissible: false,
+      );
     }
   }
 
-  savePref(int value, String email, String nama, String id) async {
+  //disimpen ke Shared Preferences
+  savePref(int value, String email, String namad, String namab, String id,
+      String iddok) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       preferences.setInt("value", value);
-      preferences.setString("nama", nama);
+      preferences.setString("namad", namad);
+      preferences.setString("namab", namab);
       preferences.setString("email", email);
       preferences.setString("id", id);
+      preferences.setString("iddok", iddok);
       preferences.commit();
     });
   }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_better_camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
@@ -18,6 +20,7 @@ class HomePageView extends State<HomePage> {
   CameraController _controller;
   double _alpha = 0.3;
   int _bpm = 0;
+  List<int> heartRate = [];
 
   _toggle() {
     _initController().then((onValue) {
@@ -98,6 +101,45 @@ class HomePageView extends State<HomePage> {
         setState(() {
           _bpm = (1 - _alpha) * _bpm + _alpha * _bpm;
           this._bpm = ((1 - _alpha) * _bpm + _alpha * _bpm).toInt();
+          heartRate.add(_bpm.toInt());
+          if(heartRate.length == 15){
+            _untoggle();
+            debugPrint(heartRate.toString());
+            int tampilin = 0;
+            for(int i = 0; i < 15; i++){
+              tampilin = tampilin + heartRate[i];
+            }
+            tampilin = (tampilin / 15).toInt();
+            Widget cekButton = FlatButton(
+                onPressed: (){
+                  /*Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Dokter()),
+                  );*/
+                },
+                child: Icon(Icons.check));
+
+            //bikin alert
+            AlertDialog alert = AlertDialog(
+              title: Text("Login Berhasil"),
+              content: Text(
+                "Heart Rate"+tampilin.toString(),
+                textAlign: TextAlign.justify,
+              ),
+              actions: [
+                cekButton
+              ],
+            );
+
+            //nampilin alertnya
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return alert;
+              },
+              barrierDismissible: false,
+            );
+          }
         });
       }
       await Future.delayed(Duration(milliseconds: (1000 * 50 / 30).round()));
