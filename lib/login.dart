@@ -43,9 +43,9 @@ class _LoginState extends State<Login> {
     print("substring : " + cekdokter);
     if (cekdokter == "@dokter.com") {
       url =
-          global.ipServer+"/flutter/logindokter.php"; //ganti sesuai komputer masing2
+          global.ipServer + "/logindokter.php"; //ganti sesuai komputer masing2
     } else {
-      url = global.ipServer+"/flutter/login.php"; //ganti sesuai komputer masing2
+      url = global.ipServer + "/login.php"; //ganti sesuai komputer masing2
     }
     final response = await http.post(url, body: {
       "email": emailController.text,
@@ -74,7 +74,7 @@ class _LoginState extends State<Login> {
       debugPrint('debug : masuk pak Eko 1');
       if (cekdokter == '@dokter.com') {
         Widget cekButton = FlatButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Dokter()),
@@ -86,12 +86,10 @@ class _LoginState extends State<Login> {
         AlertDialog alert = AlertDialog(
           title: Text("Login Berhasil"),
           content: Text(
-            "Login berhasil sebagai dokter"+emailAPI,
+            "Login berhasil sebagai dokter" + emailAPI,
             textAlign: TextAlign.justify,
           ),
-          actions: [
-            cekButton
-          ],
+          actions: [cekButton],
         );
 
         //nampilin alertnya
@@ -105,7 +103,7 @@ class _LoginState extends State<Login> {
       } else {
         //bikin button buat alert
         Widget cekButton = FlatButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Home()),
@@ -117,20 +115,18 @@ class _LoginState extends State<Login> {
         AlertDialog alert = AlertDialog(
           title: Text("Login Berhasil"),
           content: Text(
-            "Login berhasil sebagai "+emailAPI,
+            "Login berhasil sebagai " + emailAPI,
             textAlign: TextAlign.justify,
           ),
-          actions: [
-            cekButton
-          ],
+          actions: [cekButton],
         );
 
         //nampilin alertnya
         showDialog(
           context: context,
-            builder: (BuildContext context) {
-              return alert;
-            },
+          builder: (BuildContext context) {
+            return alert;
+          },
           barrierDismissible: false,
         );
       }
@@ -138,7 +134,7 @@ class _LoginState extends State<Login> {
       print(pesan);
       debugPrint('debug : masuk pak Eko 2');
       Widget cekButton = FlatButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
           child: Text("Ok"));
@@ -150,9 +146,7 @@ class _LoginState extends State<Login> {
           "Email atau password salah",
           textAlign: TextAlign.justify,
         ),
-        actions: [
-          cekButton
-        ],
+        actions: [cekButton],
       );
 
       //nampilin alertnya
@@ -243,7 +237,7 @@ class _LoginState extends State<Login> {
         onPressed: () {
           check();
         },
-        child: Text("Login",
+        child: Text("Masuk",
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
                 .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
@@ -252,7 +246,7 @@ class _LoginState extends State<Login> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Masuk'),
         backgroundColor: Colors.blueAccent,
       ),
       body: Center(

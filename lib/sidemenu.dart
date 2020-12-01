@@ -4,9 +4,9 @@ import 'package:zicheckk/main.dart';
 import 'package:zicheckk/profile.dart';
 import 'package:zicheckk/showalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'check.dart';
 
 class NavDrawer extends StatelessWidget {
-
   signOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setInt("value", null);
@@ -34,51 +34,55 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.input),
+            leading: Icon(Icons.medical_services_outlined),
             title: Text('Check Up'),
-            onTap: () => {},
+            onTap: () => {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => Check()),
+              )
+            },
           ),
           ListTile(
-            leading: Icon(Icons.verified_user),
+            leading: Icon(Icons.refresh_outlined),
             title: Text('Riwayat Checkup'),
             onTap: () => {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => History()),
               )
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings),
+            leading: Icon(Icons.supervised_user_circle_outlined),
             title: Text('Profile'),
             onTap: () => {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => Profile()),
               )
             },
           ),
           ListTile(
-            leading: Icon(Icons.border_color),
+            leading: Icon(Icons.add_alert),
             title: Text('Darurat'),
             onTap: () => {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => ShowAlert()),
               )
             },
           ),
           ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text('Logout'),
-            onTap: () => {
-              signOut(),
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyApp()),
-              ),
-            }
-          ),
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Logout'),
+              onTap: () => {
+                    signOut(),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    ),
+                  }),
         ],
       ),
     );

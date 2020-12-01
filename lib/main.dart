@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    var value,namad,namab,email,id,iddok;
+    var value, namad, namab, email, id, iddok;
 
     getPref() async {
       debugPrint("masuk ke getPref");
@@ -56,21 +56,20 @@ class _MyHomePageState extends State<MyHomePage> {
         id = preferences.getString("id");
         iddok = preferences.getString("iddok");
       });
-      debugPrint("value = "+value.toString());
-      debugPrint("namad = "+namad);
-      debugPrint("namab = "+namab);
-      debugPrint("email = "+email);
-      debugPrint("id = "+id.toString());
-      debugPrint("iddok = "+iddok.toString());
+      debugPrint("value = " + value.toString());
+      debugPrint("namad = " + namad);
+      debugPrint("namab = " + namab);
+      debugPrint("email = " + email);
+      debugPrint("id = " + id.toString());
+      debugPrint("iddok = " + iddok.toString());
       if (value == 1) {
         debugPrint("masuk cuy");
-        if(email.toString().contains("@dokter.com")){
+        if (email.toString().contains("@dokter.com")) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Dokter()),
           );
-        }
-        else{
+        } else {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Home()),

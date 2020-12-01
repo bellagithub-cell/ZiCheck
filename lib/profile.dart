@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
   // ambil data user sesuai id
   user() async {
     final response = await http
-        .post(global.ipServer+"/flutter/user.php", //ganti sesuai komputer masing2
+        .post(global.ipServer + "/user.php", //ganti sesuai komputer masing2
             body: {
           "id": id,
         }).then((response) => response);

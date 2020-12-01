@@ -39,7 +39,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
   // ambil data user sesuai id
   user() async {
     final response = await http
-        .post(global.ipServer+"/flutter/user.php", //ganti sesuai komputer masing2
+        .post(global.ipServer + "/user.php", //ganti sesuai komputer masing2
             body: {
           "id": id,
         }).then((response) => response);
@@ -69,7 +69,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
     print("now: " + formattedDate); // 2016-01-25
     print("id : " + id);
     final response = await http.post(
-        global.ipServer+"/flutter/insertdiagnose.php", //ganti sesuai komputer masing2
+        global.ipServer + "/insertdiagnose.php", //ganti sesuai komputer masing2
         body: {
           "diagnosa": diagnoseController.text,
           "obat": medicineController.text,
@@ -124,7 +124,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Diagnose",
           labelText: "Diagnose",
-          prefixIcon: Icon(Icons.location_on),
+          prefixIcon: Icon(Icons.medical_services),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: diagnoseController,
@@ -139,7 +139,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Medicine",
           labelText: "Medicine",
-          prefixIcon: Icon(Icons.location_on),
+          prefixIcon: Icon(Icons.medical_services_outlined),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: medicineController,
