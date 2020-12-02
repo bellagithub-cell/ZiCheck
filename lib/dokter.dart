@@ -38,7 +38,7 @@ class _DokterState extends State<Dokter> {
   // buat ambil data history dari sql
   user() async {
     final response = await http
-        .post(global.ipServer + "/checkup.php", //ganti sesuai komputer masing2
+        .post(global.ipServer + "/flutter/checkup.php", //ganti sesuai komputer masing2
             body: {
           "id": id,
         }).then((response) => response);

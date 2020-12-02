@@ -39,7 +39,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
   // ambil data user sesuai id
   user() async {
     final response = await http
-        .post(global.ipServer + "/user.php", //ganti sesuai komputer masing2
+        .post(global.ipServer + "/flutter/user.php", //ganti sesuai komputer masing2
             body: {
           "id": id,
         }).then((response) => response);

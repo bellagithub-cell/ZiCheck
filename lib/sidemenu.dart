@@ -82,7 +82,7 @@ class NavDrawer extends StatelessWidget {
                       context,
                       MaterialPageRoute(builder: (context) => MyApp()),
                     ),
-                  }),
+              }),
         ],
       ),
     );

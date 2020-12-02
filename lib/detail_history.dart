@@ -45,7 +45,7 @@ class _DetailHistoryState extends State<DetailHistory> {
 
   user() async {
     final response = await http.post(
-        global.ipServer + "/historydetail.php", //ganti sesuai komputer masing2
+        global.ipServer + "/flutter/historydetail.php", //ganti sesuai komputer masing2
         body: {
           "id": id,
         }).then((response) => response);

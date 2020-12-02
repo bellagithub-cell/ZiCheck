@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:zicheckk/home.dart';
 import 'homePage.dart';
 
 void main() => runApp(Check());
@@ -153,9 +154,25 @@ class Check extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           //check();
+          int intStressLevel;
+          if(_valStressLevel == "1. Tidak Stress"){
+            intStressLevel = 1;
+          }
+          else if(_valStressLevel == "2. Lumayan Stress"){
+            intStressLevel = 2;
+          }
+          else if(_valStressLevel == "3. Cukup Stress"){
+            intStressLevel = 3;
+          }
+          else{
+            intStressLevel = 4;
+          }
+
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => HomePage(int.parse(bodyTempController.text),int.parse(sysBloodPressController.text),
+                int.parse(diasBloodPressController.text),intStressLevel,breathComplaintController.text,
+                consumeAntibioticController.text,allergiesController.text,otherComplaintController.text)),
           );
         },
         child: Text("Lanjut",
@@ -169,6 +186,12 @@ class Check extends StatelessWidget {
       appBar: AppBar(
         title: Text('Check Up'),
         backgroundColor: Colors.blueAccent,
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Form(

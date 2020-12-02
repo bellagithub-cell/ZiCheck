@@ -1,19 +1,68 @@
 import 'dart:async';
-
 import 'package:flutter_better_camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:wakelock/wakelock.dart';
+import 'package:zicheckk/home.dart';
 import 'chart.dart';
-
+import 'global.dart' as global;
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
+  final int bodyTemp;
+  final int sysBloodPress;
+  final int diasBloodPress;
+  final int valStressLevel;
+  final String breathComplaint;
+  final String consumeAntibiotic;
+  final String allergies;
+  final String otherComplaint;
+
+  HomePage(
+      this.bodyTemp,
+      this.sysBloodPress,
+      this.diasBloodPress,
+      this.valStressLevel,
+      this.breathComplaint,
+      this.consumeAntibiotic,
+      this.allergies,
+      this.otherComplaint);
+
   @override
   HomePageView createState() {
-    return HomePageView();
+    return HomePageView(
+        this.bodyTemp,
+        this.sysBloodPress,
+        this.diasBloodPress,
+        this.valStressLevel,
+        this.breathComplaint,
+        this.consumeAntibiotic,
+        this.allergies,
+        this.otherComplaint);
   }
 }
 
 class HomePageView extends State<HomePage> {
+  int bodyTemp;
+  int sysBloodPress;
+  int diasBloodPress;
+  int valStressLevel;
+  String breathComplaint;
+  String consumeAntibiotic;
+  String allergies;
+  String otherComplaint;
+
+  HomePageView(
+      this.bodyTemp,
+      this.sysBloodPress,
+      this.diasBloodPress,
+      this.valStressLevel,
+      this.breathComplaint,
+      this.consumeAntibiotic,
+      this.allergies,
+      this.otherComplaint);
+
   bool _toggled = false;
   bool _processing = false;
   List<SensorValue> _data = [];
@@ -21,6 +70,53 @@ class HomePageView extends State<HomePage> {
   double _alpha = 0.3;
   int _bpm = 0;
   List<int> heartRate = [];
+
+  regisCheckUp(int heartRate) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    String id;
+    id = preferences.getString("id");
+    debugPrint("masuk Pak jamal");
+    debugPrint("cek " + bodyTemp.toString());
+    debugPrint("cek " + sysBloodPress.toString());
+    debugPrint("cek " + diasBloodPress.toString());
+    debugPrint("cek " + heartRate.toString());
+    debugPrint("cek " + valStressLevel.toString());
+    debugPrint("cek " + breathComplaint);
+    debugPrint("cek " + consumeAntibiotic);
+    debugPrint("cek " + allergies);
+    debugPrint("cek " + otherComplaint);
+    debugPrint("cek " + id);
+
+    final response =
+        await http.post(global.ipServer + "/flutter/regischeckup.php", body: {
+      "body_temp": bodyTemp.toString(),
+      "blood_press_sis": sysBloodPress.toString(),
+      "blood_press_dias": diasBloodPress.toString(),
+      "heart_rate": heartRate.toString(),
+      "stress_level": valStressLevel.toString(),
+      "breath_complaint": breathComplaint,
+      "consume_antibiotik": consumeAntibiotic,
+      "allergies": allergies,
+      "other_complaint": otherComplaint,
+      "id_user": id,
+    }).then((response) => response);
+
+    /*final response = await http
+        .post(global.ipServer+"/flutter/regischeckup.php", //ganti sesuai komputer masing2
+        body: {
+          "body_temp": bodyTemp
+        }).then((response) => response);*/
+    final data = jsonDecode(response.body);
+    debugPrint('debug : response : ' + response.body);
+    int value = data['value'];
+    String pesan = data['message'];
+
+    if (value == 1) {
+      debugPrint("masuk ke database");
+      debugPrint(pesan);
+    }
+  }
 
   _toggle() {
     _initController().then((onValue) {
@@ -102,33 +198,40 @@ class HomePageView extends State<HomePage> {
           _bpm = (1 - _alpha) * _bpm + _alpha * _bpm;
           this._bpm = ((1 - _alpha) * _bpm + _alpha * _bpm).toInt();
           heartRate.add(_bpm.toInt());
-          if(heartRate.length == 15){
+          if (heartRate.length == 15) {
             _untoggle();
             debugPrint(heartRate.toString());
             int tampilin = 0;
-            for(int i = 0; i < 15; i++){
+            for (int i = 0; i < 15; i++) {
               tampilin = tampilin + heartRate[i];
             }
-            tampilin = (tampilin / 15).toInt();
+            tampilin = tampilin ~/ 15;
             Widget cekButton = FlatButton(
-                onPressed: (){
-                  /*Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Dokter()),
-                  );*/
+                onPressed: () {
+                  regisCheckUp(tampilin);
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home()),
+                      (Route<dynamic> route) => false);
                 },
                 child: Icon(Icons.check));
 
+            Widget cancelButton = FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+                heartRate.clear();
+              },
+              child: Text("Ulang Kembali"),
+            );
+
             //bikin alert
             AlertDialog alert = AlertDialog(
-              title: Text("Login Berhasil"),
+              title: Text("Heart Rate"),
               content: Text(
-                "Heart Rate"+tampilin.toString(),
+                "Heart Rate " + tampilin.toString(),
                 textAlign: TextAlign.justify,
               ),
-              actions: [
-                cekButton
-              ],
+              actions: [cancelButton, cekButton],
             );
 
             //nampilin alertnya
@@ -194,8 +297,11 @@ class HomePageView extends State<HomePage> {
                   Expanded(
                     child: Center(
                       child: Text(
-                        (_bpm > 30 && _bpm < 150 ? _bpm.round().toString() : "--"),
-                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                        (_bpm > 30 && _bpm < 150
+                            ? _bpm.round().toString()
+                            : "--"),
+                        style: TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),

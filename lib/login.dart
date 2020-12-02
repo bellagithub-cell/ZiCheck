@@ -43,9 +43,9 @@ class _LoginState extends State<Login> {
     print("substring : " + cekdokter);
     if (cekdokter == "@dokter.com") {
       url =
-          global.ipServer + "/logindokter.php"; //ganti sesuai komputer masing2
+          global.ipServer + "/flutter/logindokter.php"; //ganti sesuai komputer masing2
     } else {
-      url = global.ipServer + "/login.php"; //ganti sesuai komputer masing2
+      url = global.ipServer + "/flutter/login.php"; //ganti sesuai komputer masing2
     }
     final response = await http.post(url, body: {
       "email": emailController.text,
@@ -104,9 +104,10 @@ class _LoginState extends State<Login> {
         //bikin button buat alert
         Widget cekButton = FlatButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Home()),
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home()),
+                      (Route<dynamic> route) => false
               );
             },
             child: Icon(Icons.check));
