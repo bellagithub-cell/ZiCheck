@@ -43,9 +43,9 @@ class _EditProfile extends State<EditProfile> {
 
   // ambil data user sesuai id
   user() async {
-    final response = await http
-        .post(global.ipServer + "/flutter/user.php", //ganti sesuai komputer masing2
-            body: {
+    final response = await http.post(
+        global.ipServer + "/flutter/user.php", //ganti sesuai komputer masing2
+        body: {
           "id": id,
         }).then((response) => response);
     final data = jsonDecode(response.body);
@@ -82,9 +82,9 @@ class _EditProfile extends State<EditProfile> {
 
   updatedata() async {
     debugPrint("masuk pak eko");
-    final response = await http
-        .post(global.ipServer + "/flutter/update.php", //ganti sesuai komputer masing2
-            body: {
+    final response = await http.post(
+        global.ipServer + "/flutter/update.php", //ganti sesuai komputer masing2
+        body: {
           "nama_depan": namaDepanController.text,
           "nama_blkg": namaBlkgController.text,
           "alamat": alamatRmhController.text,

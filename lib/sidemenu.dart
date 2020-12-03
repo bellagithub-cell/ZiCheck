@@ -45,7 +45,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.refresh_outlined),
-            title: Text('Riwayat Checkup'),
+            title: Text('Checkup History'),
             onTap: () => {
               Navigator.pushReplacement(
                 context,
@@ -65,7 +65,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.add_alert),
-            title: Text('Darurat'),
+            title: Text('Emergency'),
             onTap: () => {
               Navigator.pushReplacement(
                 context,
@@ -82,7 +82,7 @@ class NavDrawer extends StatelessWidget {
                       context,
                       MaterialPageRoute(builder: (context) => MyApp()),
                     ),
-              }),
+                  }),
         ],
       ),
     );

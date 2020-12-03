@@ -6,7 +6,6 @@ import 'homePage.dart';
 void main() => runApp(Check());
 
 class Check extends StatelessWidget {
-
   final _key = new GlobalKey<FormState>();
   final bodyTempController = TextEditingController();
   final sysBloodPressController = TextEditingController();
@@ -20,7 +19,12 @@ class Check extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List _stressLevel = ["1. Tidak Stress", "2. Lumayan Stress","3. Cukup Stress","4. Panik/Sangat Stress"];
+    List _stressLevel = [
+      "1. Tidak Stress",
+      "2. Lumayan Stress",
+      "3. Cukup Stress",
+      "4. Panik/Sangat Stress"
+    ];
     var mediaQueryData = MediaQuery.of(context);
     final double heightScreen = mediaQueryData.size.height / 15;
 
@@ -41,10 +45,10 @@ class Check extends StatelessWidget {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Suhu Tubuh",
+          hintText: "Body Temp",
           prefixIcon: Icon(Icons.phone),
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: bodyTempController,
     );
 
@@ -54,10 +58,10 @@ class Check extends StatelessWidget {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Tekanan Darah Sistolik",
+          hintText: "Sistolic Blood Preasure",
           prefixIcon: Icon(Icons.phone),
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: sysBloodPressController,
     );
 
@@ -67,10 +71,10 @@ class Check extends StatelessWidget {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Tekanan Darah Diatolik",
+          hintText: "Diatholic Blood Preasure",
           prefixIcon: Icon(Icons.phone),
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: diasBloodPressController,
     );
 
@@ -96,11 +100,11 @@ class Check extends StatelessWidget {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Keluhan Pernafasan",
-          labelText: "Keluhan Pernafasan",
+          hintText: "Respiratory Complaints",
+          labelText: "Respiratory Complaints",
           prefixIcon: Icon(Icons.supervised_user_circle),
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: breathComplaintController,
     );
 
@@ -109,11 +113,11 @@ class Check extends StatelessWidget {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Konsumsi Antibiotik",
-          labelText: "Konsumsi Antibiotik",
+          hintText: "Antibiotic Consume",
+          labelText: "Antibiotic Consume",
           prefixIcon: Icon(Icons.supervised_user_circle),
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: consumeAntibioticController,
     );
 
@@ -124,11 +128,11 @@ class Check extends StatelessWidget {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Alergi",
-          labelText: "Alergi",
+          hintText: "Allergy",
+          labelText: "Allergy",
           prefixIcon: Icon(Icons.location_on),
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: allergiesController,
     );
 
@@ -137,11 +141,11 @@ class Check extends StatelessWidget {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Keluhan lain",
-          labelText: "Keluhan lain",
+          hintText: "Another Complaints",
+          labelText: "Another Complaints",
           prefixIcon: Icon(Icons.supervised_user_circle),
           border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: otherComplaintController,
     );
 
@@ -155,27 +159,31 @@ class Check extends StatelessWidget {
         onPressed: () {
           //check();
           int intStressLevel;
-          if(_valStressLevel == "1. Tidak Stress"){
+          if (_valStressLevel == "1. Tidak Stress") {
             intStressLevel = 1;
-          }
-          else if(_valStressLevel == "2. Lumayan Stress"){
+          } else if (_valStressLevel == "2. Lumayan Stress") {
             intStressLevel = 2;
-          }
-          else if(_valStressLevel == "3. Cukup Stress"){
+          } else if (_valStressLevel == "3. Cukup Stress") {
             intStressLevel = 3;
-          }
-          else{
+          } else {
             intStressLevel = 4;
           }
 
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage(int.parse(bodyTempController.text),int.parse(sysBloodPressController.text),
-                int.parse(diasBloodPressController.text),intStressLevel,breathComplaintController.text,
-                consumeAntibioticController.text,allergiesController.text,otherComplaintController.text)),
+            MaterialPageRoute(
+                builder: (context) => HomePage(
+                    int.parse(bodyTempController.text),
+                    int.parse(sysBloodPressController.text),
+                    int.parse(diasBloodPressController.text),
+                    intStressLevel,
+                    breathComplaintController.text,
+                    consumeAntibioticController.text,
+                    allergiesController.text,
+                    otherComplaintController.text)),
           );
         },
-        child: Text("Lanjut",
+        child: Text("Next",
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0)
                 .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),

@@ -42,10 +42,11 @@ class _LoginState extends State<Login> {
     String url;
     print("substring : " + cekdokter);
     if (cekdokter == "@dokter.com") {
-      url =
-          global.ipServer + "/flutter/logindokter.php"; //ganti sesuai komputer masing2
+      url = global.ipServer +
+          "/flutter/logindokter.php"; //ganti sesuai komputer masing2
     } else {
-      url = global.ipServer + "/flutter/login.php"; //ganti sesuai komputer masing2
+      url = global.ipServer +
+          "/flutter/login.php"; //ganti sesuai komputer masing2
     }
     final response = await http.post(url, body: {
       "email": emailController.text,
@@ -107,8 +108,7 @@ class _LoginState extends State<Login> {
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => Home()),
-                      (Route<dynamic> route) => false
-              );
+                  (Route<dynamic> route) => false);
             },
             child: Icon(Icons.check));
 
@@ -238,7 +238,7 @@ class _LoginState extends State<Login> {
         onPressed: () {
           check();
         },
-        child: Text("Masuk",
+        child: Text("Login",
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
                 .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
@@ -247,7 +247,7 @@ class _LoginState extends State<Login> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Masuk'),
+        title: Text('Login'),
         backgroundColor: Colors.blueAccent,
       ),
       body: Center(

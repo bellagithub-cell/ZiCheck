@@ -8,6 +8,9 @@ import 'package:intl/intl.dart';
 import 'global.dart' as global;
 
 class InsertDiagnosa extends StatefulWidget {
+  InsertDiagnosa({Key key, this.data}) : super(key: key);
+
+  final String data;
   @override
   _InsertDiagnosa createState() => _InsertDiagnosa();
 }
@@ -38,9 +41,9 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
 
   // ambil data user sesuai id
   user() async {
-    final response = await http
-        .post(global.ipServer + "/flutter/user.php", //ganti sesuai komputer masing2
-            body: {
+    final response = await http.post(
+        global.ipServer + "/flutter/user.php", //ganti sesuai komputer masing2
+        body: {
           "id": id,
         }).then((response) => response);
     final data = jsonDecode(response.body);
@@ -111,6 +114,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
 
   @override
   Widget build(BuildContext context) {
+    idcheckupController.text = widget.data;
     // TODO: implement build
     var mediaQueryData = MediaQuery.of(context);
     final double heightScreen = mediaQueryData.size.height / 15;

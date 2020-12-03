@@ -38,28 +38,35 @@ class _HistoryState extends State<History> {
 
   // buat ambil data history dari sql
   user() async {
-    final response = await http
-        .post(global.ipServer + "/flutter/history.php", //ganti sesuai komputer masing2
-            body: {
+    final response = await http.post(
+        global.ipServer +
+            "/flutter/history.php", //ganti sesuai komputer masing2
+        body: {
           "id": id,
         }).then((response) => response);
     final data = jsonDecode(response.body);
     debugPrint('debug : response : ' + response.body);
     // print(data['hasil'].length.toInt());
-    print("length : " + data['hasil'].length.toString());
-    int pdata = data['hasil'].length.toInt();
-    print("pdata is : " + pdata.toString());
-    // tampung json decode ke array list
-    for (var i = 0; i < pdata; i++) {
-      // ardata.add(data['hasil'][i].toString());
-      // arid.add(data['hasil'][i]['id_checkup']);
-      // ardate.add(data['hasil'][i]['date_checkup']);
-      // arstatus.add(data['hasil'][i]['status']);
-      ardata.add(data['hasil'][i]);
+
+    if (data['hasil'] == null) {
+      ardata.length = 0;
+      // ardata.length = 0;
+    } else {
+      print("length : " + data['hasil'].length.toString());
+      int pdata = data['hasil'].length.toInt();
+      print("pdata is : " + pdata.toString());
+      // tampung json decode ke array list
+      for (var i = 0; i < pdata; i++) {
+        // ardata.add(data['hasil'][i].toString());
+        // arid.add(data['hasil'][i]['id_checkup']);
+        // ardate.add(data['hasil'][i]['date_checkup']);
+        // arstatus.add(data['hasil'][i]['status']);
+        ardata.add(data['hasil'][i]);
+      }
+      debugPrint("data : " + ardata[0].toString());
+      // debugPrint(ardate[0].toString());
+      // debugPrint(arstatus[0].toString());
     }
-    debugPrint("data : " + ardata[0].toString());
-    // debugPrint(ardate[0].toString());
-    // debugPrint(arstatus[0].toString());
   }
 
   @override
@@ -81,7 +88,7 @@ class _HistoryState extends State<History> {
     return Scaffold(
         drawer: NavDrawer(),
         appBar: AppBar(
-          title: Text("Riwayat Checkup"),
+          title: Text("Checkup History"),
         ),
         body: FutureBuilder(
             future: fetchData(),

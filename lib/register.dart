@@ -53,9 +53,9 @@ class _Register extends State<Register> {
 
         //bikin alert
         AlertDialog alert = AlertDialog(
-          title: Text("Register Gagal"),
+          title: Text("Register Fail"),
           content: Text(
-            "Password tidak sama",
+            "Password Incorrect",
             textAlign: TextAlign.justify,
           ),
           actions: [cekButton],
@@ -79,9 +79,10 @@ class _Register extends State<Register> {
       valJenisKlmn = 'P';
     }
     debugPrint("masuk pak eko");
-    final response = await http
-        .post(global.ipServer + "/flutter/register.php", //ganti sesuai komputer masing2
-            body: {
+    final response = await http.post(
+        global.ipServer +
+            "/flutter/register.php", //ganti sesuai komputer masing2
+        body: {
           "nama_depan": namaDepanController.text,
           "nama_blkg": namaBlkgController.text,
           "jenis_klmn": valJenisKlmn,
@@ -148,7 +149,7 @@ class _Register extends State<Register> {
 
       //bikin alert
       AlertDialog alert = AlertDialog(
-        title: Text("Register Gagal"),
+        title: Text("Register Fail"),
         content: Text(
           "Email atau password tidak bisa digunakan",
           textAlign: TextAlign.justify,
@@ -204,8 +205,8 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Nama Depan",
-          labelText: "Nama Depan",
+          hintText: "First Name",
+          labelText: "First Name",
           prefixIcon: Icon(Icons.supervised_user_circle),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -217,8 +218,8 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Nama Belakang",
-          labelText: "Nama Belakang",
+          hintText: "Last Name",
+          labelText: "Last Name",
           prefixIcon: Icon(Icons.supervised_user_circle),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -268,7 +269,7 @@ class _Register extends State<Register> {
                 prefixIcon: Icon(Icons.date_range),
                 contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                 // hintText: "Tanggal Lahir",
-                labelText: "Tanggal Lahir",
+                labelText: "Date Of Birth",
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0))),
             onTap: () {
@@ -284,8 +285,8 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Alamat",
-          labelText: "Alamat",
+          hintText: "Address",
+          labelText: "Address",
           prefixIcon: Icon(Icons.location_on),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -298,7 +299,7 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Nomor Hp",
+          hintText: "Phone Number",
           prefixIcon: Icon(Icons.phone),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -323,7 +324,7 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Kata Sandi",
+          hintText: "Password",
           prefixIcon: Icon(Icons.vpn_key),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -335,7 +336,7 @@ class _Register extends State<Register> {
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Konfirmasi Kata Sandi",
+          hintText: "Confirm Password",
           prefixIcon: Icon(Icons.vpn_key),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
@@ -356,7 +357,7 @@ class _Register extends State<Register> {
             MaterialPageRoute(builder: (context) => Home()),
           );*/
         },
-        child: Text("Daftar",
+        child: Text("Register",
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0)
                 .copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
@@ -365,7 +366,7 @@ class _Register extends State<Register> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daftar'),
+        title: Text('Register'),
         backgroundColor: Colors.blueAccent,
       ),
       body: SingleChildScrollView(

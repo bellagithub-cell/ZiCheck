@@ -26,7 +26,10 @@ class _DetailChekupState extends State<DetailCheckup> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => InsertDiagnosa()),
+                  MaterialPageRoute(
+                      builder: (context) => InsertDiagnosa(
+                            data: widget.data['id_checkup'],
+                          )),
                 );
               },
               tooltip: 'Toggle',
@@ -66,9 +69,9 @@ class _DetailChekupState extends State<DetailCheckup> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Suhu Tubuh         : " +
+                      "Body Temp         : " +
                           widget.data['body_temp'] +
-                          " Derajat",
+                          " Celcius",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -77,7 +80,7 @@ class _DetailChekupState extends State<DetailCheckup> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Tekanan Darah    : " +
+                      "Blood Presure    : " +
                           widget.data['blood_press_sis'] +
                           "/" +
                           widget.data['blood_press_dias'] +
@@ -89,9 +92,7 @@ class _DetailChekupState extends State<DetailCheckup> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Detak Jantung    : " +
-                          widget.data['heart_rate'] +
-                          " BPM",
+                      "Heart Rate    : " + widget.data['heart_rate'] + " BPM",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -108,7 +109,7 @@ class _DetailChekupState extends State<DetailCheckup> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Nama                  : ",
+                      "Name                  : ",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -126,7 +127,7 @@ class _DetailChekupState extends State<DetailCheckup> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Jenis Kelamin    : ",
+                      "Gender    : ",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),

@@ -37,9 +37,10 @@ class _DokterState extends State<Dokter> {
 
   // buat ambil data history dari sql
   user() async {
-    final response = await http
-        .post(global.ipServer + "/flutter/checkup.php", //ganti sesuai komputer masing2
-            body: {
+    final response = await http.post(
+        global.ipServer +
+            "/flutter/checkup.php", //ganti sesuai komputer masing2
+        body: {
           "id": id,
         }).then((response) => response);
     final data = jsonDecode(response.body);
@@ -48,17 +49,22 @@ class _DokterState extends State<Dokter> {
     print("length : " + data['hasil'].length.toString());
     int pdata = data['hasil'].length.toInt();
     print("pdata is : " + pdata.toString());
-    // tampung json decode ke array list
-    for (var i = 0; i < pdata; i++) {
-      // ardata.add(data['hasil'][i].toString());
-      // arid.add(data['hasil'][i]['id_checkup']);
-      // ardate.add(data['hasil'][i]['date_checkup']);
-      // arstatus.add(data['hasil'][i]['status']);
-      ardata.add(data['hasil'][i]);
+    if (data['hasil'] == null) {
+      ardata.length = 0;
+      // ardata.length = 0;
+    } else {
+      // tampung json decode ke array list
+      for (var i = 0; i < pdata; i++) {
+        // ardata.add(data['hasil'][i].toString());
+        // arid.add(data['hasil'][i]['id_checkup']);
+        // ardate.add(data['hasil'][i]['date_checkup']);
+        // arstatus.add(data['hasil'][i]['status']);
+        ardata.add(data['hasil'][i]);
+      }
+      debugPrint("data : " + ardata[0].toString());
+      // debugPrint(ardate[0].toString());
+      // debugPrint(arstatus[0].toString());
     }
-    debugPrint("data : " + ardata[0].toString());
-    // debugPrint(ardate[0].toString());
-    // debugPrint(arstatus[0].toString());
   }
 
   @override

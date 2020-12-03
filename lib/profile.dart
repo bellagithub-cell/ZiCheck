@@ -41,9 +41,9 @@ class _ProfileState extends State<Profile> {
 
   // ambil data user sesuai id
   user() async {
-    final response = await http
-        .post(global.ipServer + "/flutter/user.php", //ganti sesuai komputer masing2
-            body: {
+    final response = await http.post(
+        global.ipServer + "/flutter/user.php", //ganti sesuai komputer masing2
+        body: {
           "id": id,
         }).then((response) => response);
     final data = jsonDecode(response.body);
@@ -172,7 +172,7 @@ class _ProfileState extends State<Profile> {
                                 title: Text(
                                   nohp,
                                   style: TextStyle(
-                                      fontFamily: 'BalooBhai', fontSize: 20.0),
+                                      fontFamily: 'Montserrat', fontSize: 20.0),
                                 ),
                               )),
                           Card(
@@ -187,7 +187,7 @@ class _ProfileState extends State<Profile> {
                                 title: Text(
                                   tgllahir,
                                   style: TextStyle(
-                                      fontFamily: 'BalooBhai', fontSize: 20.0),
+                                      fontFamily: 'Montserrat', fontSize: 20.0),
                                 ),
                               )),
                           Card(
@@ -202,7 +202,7 @@ class _ProfileState extends State<Profile> {
                                 title: Text(
                                   email,
                                   style: TextStyle(
-                                      fontFamily: 'BalooBhai', fontSize: 20.0),
+                                      fontFamily: 'Montserrat', fontSize: 20.0),
                                 ),
                               )),
                           Card(
@@ -217,7 +217,7 @@ class _ProfileState extends State<Profile> {
                                 title: Text(
                                   alamatrmh,
                                   style: TextStyle(
-                                      fontFamily: 'BalooBhai', fontSize: 20.0),
+                                      fontFamily: 'Montserrat', fontSize: 20.0),
                                 ),
                               )),
                           Card(
@@ -232,7 +232,7 @@ class _ProfileState extends State<Profile> {
                                 title: Text(
                                   jeniskelamin,
                                   style: TextStyle(
-                                      fontFamily: 'BalooBhai', fontSize: 20.0),
+                                      fontFamily: 'Montserrat', fontSize: 20.0),
                                 ),
                               )),
                         ],

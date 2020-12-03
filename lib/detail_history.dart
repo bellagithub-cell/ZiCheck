@@ -45,7 +45,8 @@ class _DetailHistoryState extends State<DetailHistory> {
 
   user() async {
     final response = await http.post(
-        global.ipServer + "/flutter/historydetail.php", //ganti sesuai komputer masing2
+        global.ipServer +
+            "/flutter/historydetail.php", //ganti sesuai komputer masing2
         body: {
           "id": id,
         }).then((response) => response);
@@ -74,7 +75,7 @@ class _DetailHistoryState extends State<DetailHistory> {
             Container(
               padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
               child: Text(
-                "Detail Riwayat Checkup",
+                "Detail Checkup History",
                 style: TextStyle(fontSize: 25),
                 textAlign: TextAlign.center,
               ),
@@ -98,9 +99,9 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Suhu Tubuh         : " +
+                      "Body Temp          : " +
                           widget.data['body_temp'] +
-                          " Derajat",
+                          " Celcius",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -109,7 +110,7 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Tekanan Darah    : " +
+                      "Blood Preasure    : " +
                           widget.data['blood_press_sis'] +
                           "/" +
                           widget.data['blood_press_dias'] +
@@ -121,7 +122,7 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Detak Jantung    : " +
+                      "Heart Rate           : " +
                           widget.data['heart_rate'] +
                           " BPM",
                       textAlign: TextAlign.left,
@@ -131,7 +132,7 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Stress level         : " + widget.data['stress_level'],
+                      "Stress level          : " + widget.data['stress_level'],
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -140,7 +141,7 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Diagnosa             : ",
+                      "Diagnose              : ",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
@@ -162,7 +163,7 @@ class _DetailHistoryState extends State<DetailHistory> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
                     child: Text(
-                      "Obat                     : ",
+                      "Medicine                : ",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 16),
                     ),
