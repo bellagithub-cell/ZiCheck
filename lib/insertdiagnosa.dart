@@ -25,7 +25,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
   //controller masing-masing kecuali tgl lahir sama jenis kelamin
   var diagnoseController = TextEditingController();
   var medicineController = TextEditingController();
-  var idcheckupController = TextEditingController();
+  String idCheckUp;
 
   // dapetin id user
   getPref() async {
@@ -59,7 +59,8 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
       form.save();
       debugPrint("ini controller diagnose :" + diagnoseController.text);
       debugPrint("ini controller medicine :" + medicineController.text);
-      debugPrint("ini controller id_checkup: " + idcheckupController.text);
+      idCheckUp = widget.data;
+      debugPrint("ini controller id_checkup: " + idCheckUp);
       insertdata();
     }
   }
@@ -72,17 +73,48 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
     print("now: " + formattedDate); // 2016-01-25
     print("id : " + id);
     final response = await http.post(
-        global.ipServer + "/insertdiagnose.php", //ganti sesuai komputer masing2
+        global.ipServer + "/flutter/insertdiagnose.php", //ganti sesuai komputer masing2
         body: {
           "diagnosa": diagnoseController.text,
           "obat": medicineController.text,
           "id_dokter": id,
           "date_hasil": formattedDate,
-          "id_checkup": idcheckupController.text,
+          "id_checkup": idCheckUp,
         }).then((response) => response);
     final data = jsonDecode(response.body);
     debugPrint('debug : response : ' + response.body);
     // loadprogress();
+    int value = data['value'];
+    if(value == 1){
+      Widget cekButton = FlatButton(
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => Dokter()),
+                    (Route<dynamic> route) => false
+            );
+          },
+          child: Icon(Icons.check));
+
+      //bikin alert
+      AlertDialog alert = AlertDialog(
+        title: Text("Diagnosa Berhasil"),
+        content: Text(
+          "Diagnosa berhasil dimasukkan",
+          textAlign: TextAlign.justify,
+        ),
+        actions: [cekButton],
+      );
+
+      //nampilin alertnya
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+        barrierDismissible: false,
+      );
+    }
     Navigator.push(context, MaterialPageRoute(builder: (context) => Dokter()));
   }
 
@@ -114,7 +146,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
 
   @override
   Widget build(BuildContext context) {
-    idcheckupController.text = widget.data;
+    //idcheckupController.text = widget.data;
     // TODO: implement build
     var mediaQueryData = MediaQuery.of(context);
     final double heightScreen = mediaQueryData.size.height / 15;
@@ -149,7 +181,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
       controller: medicineController,
     );
 
-    final idcheckup = TextFormField(
+    /*final idcheckup = TextFormField(
       obscureText: false,
       //tampilan
       style: TextStyle(fontFamily: 'Montserrat', fontSize: 20.0),
@@ -161,7 +193,7 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
       controller: idcheckupController,
-    );
+    );*/
 
     final editprofile = Padding(
         padding: EdgeInsets.fromLTRB(0, 10, 0, heightScreen),
@@ -211,8 +243,8 @@ class _InsertDiagnosa extends State<InsertDiagnosa> {
                             diagnose,
                             SizedBox(height: 15.0),
                             medicine,
-                            SizedBox(height: 15.0),
-                            idcheckup,
+                            //SizedBox(height: 15.0),
+                            //idcheckup,
                             SizedBox(height: 15.0),
                             saveButton,
                             Visibility(

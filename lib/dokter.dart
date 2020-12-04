@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zicheckk/main.dart';
 import 'detail_history.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -33,6 +34,22 @@ class _DokterState extends State<Dokter> {
       debugPrint(id);
       user();
     });
+  }
+
+  signOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setInt("value", null);
+    preferences.setString("namad", null);
+    preferences.setString("namab", null);
+    preferences.setString("email", null);
+    preferences.setString("id", null);
+    preferences.setString("iddok", null);
+    preferences.commit();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MyApp()),
+            (Route<dynamic> route) => false
+    );
   }
 
   // buat ambil data history dari sql
@@ -92,6 +109,7 @@ class _DokterState extends State<Dokter> {
                 padding: EdgeInsets.only(right: 20.0),
                 child: GestureDetector(
                   onTap: () {
+                    signOut();
                     //logout disini
                   },
                   child: Icon(Icons.more_vert),

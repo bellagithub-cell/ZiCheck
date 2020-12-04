@@ -78,9 +78,10 @@ class NavDrawer extends StatelessWidget {
               title: Text('Logout'),
               onTap: () => {
                     signOut(),
-                    Navigator.push(
+                    Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => MyApp()),
+                        (Route<dynamic> route) => false
                     ),
                   }),
         ],

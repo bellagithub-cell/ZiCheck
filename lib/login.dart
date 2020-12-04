@@ -76,9 +76,10 @@ class _LoginState extends State<Login> {
       if (cekdokter == '@dokter.com') {
         Widget cekButton = FlatButton(
             onPressed: () {
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => Dokter()),
+                      (Route<dynamic> route) => false
               );
             },
             child: Icon(Icons.check));

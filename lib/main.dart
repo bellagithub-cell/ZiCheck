@@ -65,9 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
       if (value == 1) {
         debugPrint("masuk cuy");
         if (email.toString().contains("@dokter.com")) {
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => Dokter()),
+                  (Route<dynamic> route) => false
           );
         } else {
           Navigator.pushAndRemoveUntil(
